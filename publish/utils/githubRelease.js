@@ -32,7 +32,7 @@ const options = {
   body: changeLog,
   draft: false,
   prerelease: false,
-  repo: 'lx-music-desktop',
+  repo: 'ym-music-desktop',
   owner: 'YM040923',
   endpoint: 'https://api.github.com', // for GitHub enterprise, use http(s)://hostname/api/v3
   auth: {

@@ -8,16 +8,16 @@ dd
     |  fork 后继续调整的分支项目，主要目标是美化桌面端 UI、优化播放详情页、歌单、搜索、设置等界面体验。
   .p.small
     | 本分支更新与发布地址：
-    span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://github.com/YM040923/lx-music-desktop/releases')") GitHub Releases
+    span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://github.com/YM040923/ym-music-desktop/releases')") GitHub Releases
   .p.small
     | 项目源码地址：
-    span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://github.com/YM040923/lx-music-desktop#readme')") https://github.com/YM040923/lx-music-desktop
+    span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://github.com/YM040923/ym-music-desktop#readme')") https://github.com/YM040923/ym-music-desktop
   .p.small
     | 若遇到上游功能相关问题，可参考 LX Music 桌面版常见问题：
     span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://lyswhut.github.io/lx-music-doc/desktop/faq')") 桌面版常见问题
   .p.small
     | 与本分支 UI、美化、打包、更新相关的问题可到&nbsp;GitHub&nbsp;
-    span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://github.com/YM040923/lx-music-desktop/issues?q=is%3Aissue+')") 提交&nbsp;Issue
+    span.hover.underline(:aria-label="$t('setting__click_open')" @click="openUrl('https://github.com/YM040923/ym-music-desktop/issues?q=is%3Aissue+')") 提交&nbsp;Issue
     | 。
   br
   .p.small 本项目保持免费、开源，并遵循原项目的 Apache-2.0 许可证；内置音乐源、同步、下载等核心能力主要继承自 LX Music。

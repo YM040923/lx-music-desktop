@@ -2,7 +2,7 @@ import { httpGet } from './request'
 // TODO add Notice
 
 const owner = 'YM040923'
-const repo = 'lx-music-desktop'
+const repo = 'ym-music-desktop'
 
 const address = [
   [`https://raw.githubusercontent.com/${owner}/${repo}/master/publish/version.json`, 'direct'],

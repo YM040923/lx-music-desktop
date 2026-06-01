@@ -48,7 +48,7 @@ const options = {
     {
       provider: 'github',
       owner: 'YM040923',
-      repo: 'lx-music-desktop',
+      repo: 'ym-music-desktop',
     },
   ],
 }
