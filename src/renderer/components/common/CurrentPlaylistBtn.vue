@@ -181,7 +181,7 @@ onBeforeUnmount(() => {
     0 18px 48px rgba(76, 103, 124, .18);
   overflow: hidden;
   box-sizing: border-box;
-  animation: drawerIn @transition-normal ease;
+  animation: drawerIn @transition-normal;
 }
 
 .panel {
