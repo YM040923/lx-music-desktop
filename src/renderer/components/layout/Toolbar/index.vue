@@ -19,13 +19,13 @@ import SearchInput from './SearchInput.vue'
 @import '@renderer/assets/styles/layout.less';
 
 .toolbar {
+  position: relative;
   display: flex;
   height: @height-toolbar;
   align-items: center;
-  justify-content: space-between;
-  padding-left: 15px;
+  justify-content: center;
+  padding: 0 24px;
   -webkit-app-region: drag;
-  z-index: 2;
 
   &.fullscreen {
     -webkit-app-region: no-drag;
@@ -35,18 +35,19 @@ import SearchInput from './SearchInput.vue'
   }
 
   &.controlBtnLeft {
+    justify-content: center;
     .control {
       display: none;
     }
   }
   &.controlBtnRight {
-    justify-content: space-between;
+    justify-content: center;
   }
 }
 
 .logo {
   box-sizing: border-box;
-  padding: 0 @height-toolbar * .4;
+  padding: 0 @height-toolbar * .45;
   height: @height-toolbar;
   color: var(--color-primary);
   flex: none;

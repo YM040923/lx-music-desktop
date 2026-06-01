@@ -241,41 +241,21 @@ export default {
 .modal {
   width: 100%;
   height: 100%;
-  // background-color: rgba(0, 0, 0, .2);
-  // background-color: rgba(255, 255, 255, .6);
-  // background-color: var(--color-primary-light-600-alpha-900);
-  // backdrop-filter: blur(4px);
-  // backdrop-filter: grayscale(70%);
+  background-color: rgba(0, 0, 0, .35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: grid;
   align-items: center;
   justify-items: center;
-  // will-change: transform;
-
-  &.filter {
-    backdrop-filter: grayscale(70%);
-  }
-
-  // &:before {
-  //   .mixin-after();
-  //   position: absolute;
-  //   left: 0;
-  //   top: 0;
-  //   width: 100%;
-  //   height: 100%;
-  //   background-color: var(--color-000);
-  //   opacity: .6;
-  // }
 }
 
 .content {
   position: relative;
-  border-radius: 4px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, .25);
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
   overflow: hidden;
-  // max-height: 80%;
-  // max-width: 76%;
-  min-width: 220px;
-  position: relative;
+  min-width: 300px;
+  max-height: 85vh;
   display: flex;
   flex-flow: column nowrap;
   z-index: 100;
@@ -284,33 +264,44 @@ export default {
 
 .header {
   flex: none;
-  background-color: var(--color-primary-light-100-alpha-100);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  height: 18px;
+  justify-content: space-between;
+  height: 42px;
+  padding: 0 8px 0 16px;
+  border-bottom: 1px solid var(--color-primary-light-700-alpha-500);
 
   button {
     border: none;
     cursor: pointer;
-    padding: 4px 7px;
+    padding: 6px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
     background-color: transparent;
-    color: var(--color-primary-dark-500-alpha-500);
+    color: var(--color-font-label);
     outline: none;
-    transition: background-color 0.2s ease;
-    line-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color @transition-fast, color @transition-fast;
 
     svg {
-      height: .7em;
+      width: 14px;
+      height: 14px;
     }
 
     &:hover {
-      background-color: var(--color-primary-dark-100-alpha-600);
-    }
-    &:active {
-      background-color: var(--color-primary-dark-200-alpha-600);
+      background-color: var(--color-primary-light-600-alpha-400);
+      color: var(--color-font);
     }
   }
+}
+
+.title {
+  font-size: var(--font-size-body-large);
+  font-weight: 600;
+  color: var(--color-font);
 }
 
 </style>

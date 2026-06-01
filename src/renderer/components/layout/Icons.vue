@@ -143,6 +143,15 @@
       <g id="icon-list-add" fill="currentColor">
         <path d="M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z" />
       </g>
+      <g id="icon-current-playlist" fill="currentColor">
+        <path d="M4 6.5A1.5 1.5 0 1 0 4 9.5 1.5 1.5 0 0 0 4 6.5Z" />
+        <path d="M8 7H21V9H8V7Z" />
+        <path d="M4 11A1.5 1.5 0 1 0 4 14 1.5 1.5 0 0 0 4 11Z" />
+        <path d="M8 11.5H18V13.5H8V11.5Z" />
+        <path d="M4 15.5A1.5 1.5 0 1 0 4 18.5 1.5 1.5 0 0 0 4 15.5Z" />
+        <path d="M8 16H15V18H8V16Z" />
+        <path d="M17 14.25V21L22 17.625 17 14.25Z" />
+      </g>
       <g id="icon-window-hide" fill="currentColor">
         <path d="M29.994,10.183L15.363,24.812L0.733,10.184c-0.977-0.978-0.977-2.561,0-3.536c0.977-0.977,2.559-0.976,3.536,0l11.095,11.093L26.461,6.647c0.977-0.976,2.559-0.976,3.535,0C30.971,7.624,30.971,9.206,29.994,10.183z" />
       </g>
@@ -152,11 +161,17 @@
       <g id="icon-window-minimize-2" fill="currentColor">
         <path d="M19,13H5V11H19V13Z" />
       </g>
+      <g id="icon-window-maximize-2" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="6" width="14" height="12" rx="1" />
+      </g>
       <g id="icon-window-close" fill="currentColor">
         <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
       </g>
       <g id="icon-window-close-2" fill="currentColor">
         <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+      </g>
+      <g id="icon-fullscreen-exit" fill="currentColor">
+        <path d="M7 14H5v5h5v-2H7v-3zm0-4h3V8H5v5h2v-3zm10 7h-3v2h5v-5h-2v3zm-3-9v2h3v3h2V8h-5z" />
       </g>
       <g id="icon-list-loop" fill="currentColor">
         <!-- 0 0 24 24-->

@@ -30,9 +30,8 @@ export default ({ visible, location, onHide }) => {
   const handleGetOffsetXY = (left, top) => {
     const listWidth = dom_menu.value.clientWidth
     const listHeight = dom_menu.value.clientHeight
-    const dom_container_parant = dom_menu.value.offsetParent
-    const containerWidth = dom_container_parant.clientWidth
-    const containerHeight = dom_container_parant.clientHeight
+    const containerWidth = window.innerWidth
+    const containerHeight = window.innerHeight
     const offsetWidth = containerWidth - left - listWidth
     const offsetHeight = containerHeight - top - listHeight
     let x = 0
@@ -60,8 +59,8 @@ export default ({ visible, location, onHide }) => {
   }, { immediate: true })
 
   watch(location, location => {
-    menuStyles.left = location.x - window.lx.rootOffset + 2 + 'px'
-    menuStyles.top = location.y - window.lx.rootOffset + 'px'
+    menuStyles.left = location.x + 2 + 'px'
+    menuStyles.top = location.y + 'px'
     // nextTick(() => {
     if (show) {
       if (menuStyles.transitionProperty != transition2) menuStyles.transitionProperty = transition2

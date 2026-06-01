@@ -182,134 +182,110 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   height: 100%;
-  border-top: var(--color-list-header-border-bottom);
+  padding: 22px 30px 26px;
+  gap: 22px;
+  box-sizing: border-box;
+  color: rgba(31, 43, 54, .84);
 }
 
 .toc {
-  flex: 0 0 16%;
+  flex: none;
+  width: 190px;
   overflow-y: scroll;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .52);
+  backdrop-filter: blur(26px) saturate(1.12);
+  -webkit-backdrop-filter: blur(26px) saturate(1.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .58),
+    0 14px 34px rgba(76, 103, 124, .10);
+  padding: 10px 0;
 }
 .tocH2 {
   line-height: 1.5;
   .mixin-ellipsis-1();
   font-size: 13px;
-  color: var(--color-font);
-  padding: 8px 10px;
-  transition: @transition-fast;
-  transition-property: background-color, color;
+  color: rgba(43, 58, 71, .68);
+  padding: 10px 15px;
+  margin: 0 8px 2px;
+  border-radius: 10px;
+  transition: background-color @transition-fast, color @transition-fast, box-shadow @transition-fast;
+  cursor: pointer;
 
   &:not(.active) {
-    cursor: pointer;
     &:hover {
-      background-color: var(--color-button-background-hover);
+      color: rgba(29, 43, 56, .86);
+      background-color: rgba(255, 255, 255, .46);
     }
   }
   &.active {
     color: var(--color-primary);
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, .66);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .62),
+      0 8px 18px rgba(76, 103, 124, .10);
   }
 }
 .activeIcon {
   height: .9em;
   width: .9em;
-  margin-left: -0.45em;
+  margin-right: 4px;
   vertical-align: -0.05em;
 }
-// .tocH3 {
-//   font-size: 13px;
-//   opacity: .8;
-// }
-
-// .tocList {
-//   .tocList {
-//     // padding-left: 15px;
-//   }
-// }
-// .tocSubListItem {
-//   padding-top: 10px;
-// }
 
 .setting {
-  padding: 0 15px 15px;
-  font-size: 14px;
-  box-sizing: border-box;
+  flex: auto;
   overflow-y: auto;
   height: 100%;
-  position: relative;
-  width: 100%;
+  padding: 4px 8px 28px;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 
   :global {
-    dt {
-      border-left: 5px solid var(--color-primary-alpha-700);
-      padding: 3px 7px;
-      margin: 15px 0;
+    dl {
+      max-width: 940px;
+      margin: 0 auto;
+      padding-bottom: 10px;
+    }
 
-      + dd h3 {
-        margin-top: 0;
-      }
+    dt {
+      padding: 0 4px;
+      margin: 0 0 14px;
+      font-size: 18px;
+      font-weight: 650;
+      color: rgba(29, 43, 56, .9);
+
+      + dd h3 { margin-top: 0; }
     }
 
     dd {
-      // margin-left: 15px;
-      // font-size: 13px;
-      > div {
-        padding: 0 15px;
-      }
-
+      margin: 0 0 12px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .50);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .58),
+        0 12px 28px rgba(76, 103, 124, .09);
+      backdrop-filter: blur(22px) saturate(1.08);
+      -webkit-backdrop-filter: blur(22px) saturate(1.08);
     }
+
+    dd > div { padding: 0; }
     h3 {
-      font-size: 12px;
-      margin: 25px 0 15px;
+      font-size: 13px;
+      margin: 0 0 12px;
+      color: rgba(43, 58, 71, .76);
+      font-weight: 650;
     }
     .p {
-      padding: 3px 0;
-      line-height: 1.3;
-      .btn {
-        + .btn {
-          margin-left: 10px;
-        }
-      }
-    }
-
-    .help-btn {
-      padding: 0;
-      margin: 0 0.4em;
-      border: none;
-      background: none;
-      color: var(--color-button-font);
-      cursor: pointer;
-      transition: opacity 0.2s ease;
-      &:hover {
-        opacity: 0.7;
-      }
-    }
-    .help-icon {
-      margin: 0 0.4em;
+      padding: 4px 0;
+      line-height: 1.5;
     }
   }
 }
 
-// .btn-content {
-//   display: inline-block;
-//   transition: @transition-theme;
-//   transition-property: opacity, transform;
-//   opacity: 1;
-//   transform: scale(1);
-
-//   &.hide {
-//     opacity: 0;
-//     transform: scale(0);
-//   }
-// }
-
-
-// :global(dt):target, :global(h3):target {
-//   animation: highlight 1s ease;
-// }
-
-// @keyframes highlight {
-//   from { background: yellow; }
-//   to { background: transparent; }
-// }
-
 </style>
-

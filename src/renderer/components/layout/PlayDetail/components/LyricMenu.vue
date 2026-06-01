@@ -217,11 +217,16 @@ export default {
   transform-origin: 0 0 0;
   transition: .14s ease;
   transition-property: transform, opacity;
-  border-radius: @radius-border;
-  background-color: var(--color-content-background);
-  box-shadow: 0 1px 8px 0 rgba(0,0,0,.2);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .74);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .58),
+    0 16px 40px rgba(76, 103, 124, .18);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   z-index: 10;
   overflow: hidden;
+  color: rgba(35, 50, 63, .78);
 }
 
 .group {
@@ -231,7 +236,7 @@ export default {
 .title {
   flex: auto;
   padding: 10px 0 10px 10px;
-  color: var(--color-font-label);
+  color: rgba(43, 58, 71, .58);
   white-space: nowrap;
   min-width: 120px;
 }
@@ -257,18 +262,19 @@ export default {
   transition-property: background-color, opacity;
   box-sizing: border-box;
   .mixin-ellipsis-1();
-  background-color: var(--color-content-background);
+  background-color: transparent;
+  color: rgba(35, 50, 63, .74);
   border: none;
 
   &:hover {
-    background-color: var(--color-primary-background-hover);
+    background-color: rgba(255, 255, 255, .52);
   }
   &:active {
-    background-color: var(--color-primary-background-active);
+    background-color: var(--color-primary-alpha-600);
   }
   &.active {
-    background-color: var(--color-content-background);
-    color: var(--color-button-font-selected);
+    background-color: var(--color-primary-alpha-500);
+    color: #fff;
     cursor: default;
     opacity: 1;
   }

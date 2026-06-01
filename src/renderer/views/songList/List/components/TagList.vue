@@ -8,15 +8,23 @@
         </svg>
       </div>
     </div>
-    <div :class="$style.popup" :style="popupStyle" :aria-hidden="!popupVisible" @click.stop>
-      <div :class="$style.list" class="scroll">
-        <div :class="$style.tag" @click="handleToggleTag('')">{{ $t('default') }}</div>
-        <dl v-for="tagInfo in list" :key="tagInfo.name">
-          <dt :class="$style.type">{{ tagInfo.name }}</dt>
-          <dd v-for="tag in tagInfo.list" :key="tag.id" :class="$style.tag" @click="handleToggleTag(tag.id)">{{ tag.name }}</dd>
-        </dl>
+    <teleport to="#root">
+      <div
+        v-if="popupVisible"
+        :class="$style.popup"
+        :style="popupStyle"
+        aria-hidden="false"
+        @click.stop
+      >
+        <div :class="$style.list" class="scroll">
+          <div :class="$style.tag" @click="handleToggleTag('')">{{ $t('default') }}</div>
+          <dl v-for="tagInfo in list" :key="tagInfo.name">
+            <dt :class="$style.type">{{ tagInfo.name }}</dt>
+            <dd v-for="tag in tagInfo.list" :key="tag.id" :class="$style.tag" @click="handleToggleTag(tag.id)">{{ tag.name }}</dd>
+          </dl>
+        </div>
       </div>
-    </div>
+    </teleport>
   </div>
 </template>
 
@@ -79,21 +87,30 @@ const tagName = computed(() => {
 })
 
 const popupStyle = reactive({
-  width: '645px',
-  maxHeight: '250px',
+  left: '180px',
+  top: '168px',
+  width: 'calc(100vw - 220px)',
+  maxHeight: 'calc(100vh - 280px)',
 })
 
 const setTagPopupWidth = () => {
-  window.setTimeout(() => {
-    const dom_view = document.getElementById('view')
-    popupStyle.width = dom_view.clientWidth * 0.96 + 'px'
-    popupStyle.maxHeight = dom_view.clientHeight * 0.65 + 'px'
-  }, 50)
+  const dom_view = document.getElementById('view')
+  if (!dom_view || !dom_btn.value) return
+  const viewRect = dom_view.getBoundingClientRect()
+  const btnRect = dom_btn.value.getBoundingClientRect()
+  const sideGap = 24
+  popupStyle.left = `${viewRect.left + sideGap}px`
+  popupStyle.top = `${btnRect.bottom + 10}px`
+  popupStyle.width = `${Math.max(320, viewRect.width - sideGap * 2)}px`
+  popupStyle.maxHeight = `${Math.max(220, window.innerHeight - btnRect.bottom - 132)}px`
 }
 
 const dom_btn = ref<HTMLElement | null>(null)
 const popupVisible = ref(false)
-const handleShow = () => popupVisible.value = !popupVisible.value
+const handleShow = () => {
+  popupVisible.value = !popupVisible.value
+  if (popupVisible.value) setTagPopupWidth()
+}
 const handleHide = (evt) => {
   // if (e && e.target.parentNode != this.$refs.dom_popup && this.show) return this.show = false
   // console.log(this.$refs)
@@ -106,11 +123,13 @@ onMounted(() => {
   setTagPopupWidth()
   document.addEventListener('click', handleHide)
   window.addEventListener('resize', setTagPopupWidth)
+  window.addEventListener('scroll', setTagPopupWidth, true)
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleHide)
   window.removeEventListener('resize', setTagPopupWidth)
+  window.removeEventListener('scroll', setTagPopupWidth, true)
 })
 
 </script>
@@ -131,106 +150,75 @@ onBeforeUnmount(() => {
         }
       }
     }
-    .popup {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: initial;
-    }
   }
 }
 
 .label {
-  padding: 8px 15px;
-  // background-color: var(--color-button-background);
-  transition: color @transition-normal;
-  // border-top: 2px solid @color-tab-border-bottom;
-  // border-left: 2px solid @color-tab-border-bottom;
+  padding: 8px 14px;
+  border-radius: @form-radius;
+  background: var(--color-primary-light-800-alpha-500);
+  transition: background-color @transition-fast, color @transition-fast;
   box-sizing: border-box;
-  text-align: center;
-  // border-top-left-radius: 3px;
   color: var(--color-font);
   cursor: pointer;
+  font-size: 13px;
 
   display: flex;
+  align-items: center;
+  gap: 6px;
 
-  span {
-    flex: auto;
-  }
   .icon {
     flex: none;
-    margin-left: 7px;
     line-height: 0;
     svg {
-      width: .8em;
+      width: 10px;
       transition: transform .2s ease;
-      transform: rotate(0);
     }
   }
 
   &:hover {
-    color: var(--color-primary-font-hover);
-  }
-  &:active {
-    color: var(--color-primary-font-active);
+    background: var(--color-primary-light-500-alpha-500);
   }
 }
 
 .popup {
-  position: absolute;
-  top: 100%;
-  width: 645px;
-  left: 8px;
-  margin-top: 12px;
-  border-radius: 4px;
-  background-color: var(--color-content-background);
-  opacity: 0;
-  transform: scale(.95, .8);
-  transform-origin: 0 0 0;
-  transition: .25s ease;
-  transition-property: transform, opacity;
-  max-height: 250px;
-  z-index: 10;
-  pointer-events: none;
-  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, .15));
+  position: fixed;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .7),
+    0 18px 42px rgba(76, 103, 124, .18);
+  max-height: 320px;
+  z-index: 3200;
   display: flex;
-
-  &:before {
-    content: " ";
-    position: absolute;
-    top: -6px;
-    left: 20px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--color-content-background);
-  }
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  overflow: hidden;
 }
 .list {
-  padding: 10px;
+  padding: 12px;
   box-sizing: border-box;
-  // box-shadow: 0 0 4px rgba(0, 0, 0, .2);
 }
 
 .type {
-  padding-top: 10px;
-  padding-bottom: 3px;
+  padding-top: 12px;
+  padding-bottom: 4px;
+  font-size: 12px;
   color: var(--color-font-label);
 }
 
 .tag {
   display: inline-block;
-  margin: 5px;
-  background-color: var(--color-button-background);
-  padding: 8px 10px;
-  border-radius: @radius-progress-border;
-  transition: background-color @transition-normal;
+  margin: 4px;
+  background-color: var(--color-primary-light-800-alpha-500);
+  padding: 8px 12px;
+  border-radius: @form-radius;
+  font-size: 13px;
+  transition: background-color @transition-fast, color @transition-fast;
   cursor: pointer;
   &:hover {
-    background-color: var(--color-button-background-hover);
-  }
-  &:active {
-    background-color: var(--color-button-background-active);
+    background-color: var(--color-primary);
+    color: #fff;
   }
 }
 

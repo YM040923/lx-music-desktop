@@ -99,51 +99,43 @@ defineExpose({ hideMenu: handleMenuClick })
   flex: auto;
   min-width: 0;
   overflow-y: scroll;
-  // overflow-y: scroll !important;
-  // border-right: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 4px 8px 8px;
+  box-sizing: border-box;
 }
 .listsItem {
   position: relative;
-  transition: .3s ease;
-  transition-property: color, background-color;
+  margin-bottom: 2px;
+  border-radius: @form-radius;
+  transition: background-color @transition-fast, color @transition-fast;
   background-color: transparent;
   &:hover:not(.active) {
-    background-color: var(--color-primary-background-hover);
+    background-color: var(--color-primary-light-600-alpha-400);
     cursor: pointer;
   }
   &.active {
-    // background-color:
     color: var(--color-primary);
+    font-weight: 600;
+    background-color: var(--color-primary-light-400-alpha-500);
   }
   &.selected {
-    background-color: var(--color-primary-font-active);
+    background-color: var(--color-primary-light-1000-alpha-600);
   }
   &.clicked {
-    background-color: var(--color-primary-background-hover);
+    background-color: var(--color-primary-light-1000-alpha-700);
   }
   &.editing {
     padding: 0 10px;
     background-color: var(--color-primary-background-hover);
-    .listsLabel {
-      display: none;
-    }
-    .listsInput {
-      display: block;
-    }
+    .listsLabel { display: none; }
+    .listsInput { display: block; }
   }
-}
-.activeIcon {
-  height: .9em;
-  width: .9em;
-  margin-left: -0.45em;
-  vertical-align: -0.05em;
 }
 .listsLabel {
   display: block;
   height: 100%;
-  padding: 0 10px;
+  padding: 0 14px;
   font-size: 13px;
-  line-height: 36px;
+  line-height: 42px;
   .mixin-ellipsis-1();
 }
 

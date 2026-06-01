@@ -368,7 +368,8 @@ export default {
   display: flex;
   flex-flow: row wrap;
   // padding: 0 15px;
-  margin-bottom: -20px;
+  margin-bottom: -12px;
+  gap: 8px;
 
   .themeItem {
     display: flex;
@@ -376,14 +377,17 @@ export default {
     align-items: center;
     cursor: pointer;
     // color: var(--color-primary);
-    margin-right: 8px;
+    margin-right: 0;
     transition: .3s ease;
-    transition-property: color, opacity;
-    margin-bottom: 18px;
-    width: 86px;
+    transition-property: color, opacity, background-color, box-shadow;
+    margin-bottom: 12px;
+    width: 72px;
+    padding: 8px 6px;
+    border-radius: 12px;
+    color: rgba(43, 58, 71, .58);
 
     &:hover {
-      opacity: .7;
+      background: rgba(255, 255, 255, .34);
     }
 
     &:last-child {
@@ -392,6 +396,8 @@ export default {
 
     &.active {
       color: var(--color-primary-font-active);
+      background: rgba(255, 255, 255, .46);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .48);
       .bg {
         border-color: var(--color-primary-font-active);
       }
@@ -403,19 +409,19 @@ export default {
 
     .bg {
       display: block;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       margin-bottom: 5px;
-      border: 2Px solid transparent;
+      border: 1Px solid transparent;
       padding: 2Px;
       transition: border-color .3s ease;
-      border-radius: 5px;
+      border-radius: 10px;
       &:after {
         display: block;
         content: ' ';
         width: 100%;
         height: 100%;
-        border-radius: @radius-border;
+        border-radius: 8px;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
@@ -428,6 +434,8 @@ export default {
       width: 100%;
       text-align: center;
       height: 1.2em;
+      font-size: 12px;
+      .mixin-ellipsis-1();
     }
 
     &.auto {
@@ -448,7 +456,7 @@ export default {
         position: relative;
         height: 100%;
         overflow: hidden;
-        border-radius: 5px;
+        border-radius: @form-radius;
       }
       .light, .dark {
         position: absolute;
@@ -506,7 +514,7 @@ export default {
           position: relative;
           height: 100%;
           overflow: hidden;
-          border-radius: 5px;
+          border-radius: @form-radius;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -528,6 +536,7 @@ export default {
       width: auto;
       gap: 5px;
       color: var(--color-primary-font-active);
+      padding: 8px 10px;
       .label {
         height: auto;
       }

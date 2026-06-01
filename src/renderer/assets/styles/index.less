@@ -265,8 +265,8 @@
   --color-950: rgb(44,44,44);
   --color-1000: rgb(33, 33, 33);
 
-  --color-app-background: var(--color-primary-light-600-alpha-600);
-  --color-main-background: rgba(255, 255, 255, 0.9);
+  --color-app-background: rgba(227, 240, 244, .72);
+  --color-main-background: rgba(255, 255, 255, .58);
   --color-nav-font: var(--color-primary);
   // --color-app-background: rgba(0, 0, 0, .5);
   // --color-main-background: rgba(0, 0, 0, 0.26);
@@ -293,9 +293,18 @@
   --color-button-background-selected: var(--color-primary-alpha-600);
   --color-button-background-hover: var(--color-primary-light-300-alpha-600);
   --color-button-background-active: var(--color-primary-light-100-alpha-600);
-  --color-list-header-border-bottom: 1px solid var(--color-primary-alpha-900);
-  --color-content-background: var(--color-primary-light-1000);
+  --color-list-header-border-bottom: none;
+  --color-list-header-shadow: 0 1px 4px var(--color-primary-alpha-700);
+  --color-content-background: rgba(248, 252, 253, .84);
 
+  // Font scale (Spotify-inspired hierarchy)
+  --font-size-caption: 0.6875rem;
+  --font-size-small: 0.75rem;
+  --font-size-body: 0.8125rem;
+  --font-size-body-large: 0.875rem;
+  --font-size-subtitle: 1rem;
+  --font-size-title: 1.25rem;
+  --font-size-headline: 1.5rem;
 
   --background-image: none;
   --background-image-position: center;
@@ -331,8 +340,8 @@ html {
 
 .badge {
   display: inline-block;
-  padding: 0.25em 0.4em;
-  font-size: .7em;
+  padding: 0.3em 0.55em;
+  font-size: var(--font-size-caption);
   // font-weight: 700;
   line-height: 1.2;
   text-align: center;
@@ -425,33 +434,30 @@ input, textarea {
 .scroll {
   overflow: auto;
   &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     background-color: rgba(0, 0, 0, 0);
   }
   &::-webkit-scrollbar-track {
-    background-color: var(--color-primary-light-100-alpha-800);
-    border-radius: 3px;
-    // background-color: rgba(0, 0, 0, 0.1);
+    background-color: transparent;
+    border-radius: 999px;
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: var(--color-primary-alpha-600);
-    // background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+    background-color: var(--color-primary-alpha-700);
     transition: background-color 0.4s ease;
   }
   &::-webkit-scrollbar-thumb:hover {
-    border-radius: 3px;
-    background-color: var(--color-primary-alpha-400);
-    // background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--color-primary-alpha-500);
     transition: background-color 0.4s ease;
   }
 }
 
 
 .thead {
-  border-bottom: var(--color-list-header-border-bottom);
-  padding-right: 6px;
+  border-bottom: none;
+  box-shadow: none;
+  padding: 0 16px 0 12px;
   flex: none;
 
   .num {
@@ -459,9 +465,6 @@ input, textarea {
     .center();
     color: var(--color-font-label);
   }
-  // box-shadow: 0 0 2px var(--color-primary-dark-500-alpha-800);
-  // position: relative;
-  // z-index: 2;
 }
 table {
   width: 100%;
@@ -470,55 +473,55 @@ table {
   overflow: hidden;
   color: var(--color-font);
   th {
-    font-size: 12px;
+    font-size: var(--font-size-caption);
     text-align: left;
-    line-height: 38px;
-    padding: 0 6px;
+    line-height: 40px;
+    padding: 0 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-font-label);
+    font-weight: 400;
   }
 }
-
 
 .list {
   width: 100%;
   overflow: hidden;
   color: var(--color-font);
   flex: auto;
-
+  padding: 4px 8px;
+  box-sizing: border-box;
 
   .list-item {
-    height: 100%;
+    height: 56px;
+    margin: 0;
+    padding: 0 6px;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    // border-top: 1px solid rgba(0, 0, 0, 0.12);
-    transition: 0.2s ease;
-    transition-property: background-color, color;
-    // border-bottom: 1px solid @color-theme_2-line;
+    transition: background-color 0.15s ease;
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: var(--font-size-body);
+    border-radius: @form-radius;
+    background-color: transparent;
 
     &:hover {
-      background-color: var(--color-primary-background-hover);
-
-      // .list-item-cell-action {
-      //   display: block;
-      // }
+      background-color: var(--color-primary-light-800-alpha-500);
     }
     &.active {
-      background-color: var(--color-primary-background-active);
+      background-color: var(--color-primary-light-600-alpha-500);
     }
     &.selected {
-      background-color: var(--color-primary-background-hover);
+      background-color: var(--color-primary-light-600-alpha-400);
     }
     &.disabled {
-      opacity: .5;
+      opacity: .4;
     }
     .list-item-cell {
       flex: none;
-      padding: 0 6px;
+      padding: 0 12px;
       position: relative;
-      // transition:  0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      line-height: 16px;
+      line-height: 1.4;
       vertical-align: middle;
       box-sizing: border-box;
       .mixin-ellipsis-1();
@@ -529,11 +532,13 @@ table {
 
       &.num, .num {
         .nobreak();
-        .center();
-        padding-left: 3px;
-        padding-right: 3px;
-        font-size: 11px;
+        text-align: right;
+        padding-left: 6px;
+        padding-right: 8px;
+        font-size: var(--font-size-small);
         color: var(--color-font-label);
+        width: 40px;
+        min-width: 40px;
       }
 
       &.name {
@@ -543,28 +548,17 @@ table {
         white-space: initial;
         text-overflow: initial;
         align-items: center;
+        gap: 10px;
 
         >.name {
           .mixin-ellipsis-1();
         }
       }
       .badge {
-        margin-left: 3px;
+        margin-left: 6px;
         opacity: .85;
       }
     }
-
-    // .list-item-cell-action {
-    //   white-space: nowrap;
-    //   display: none;
-    //   flex: auto;
-    //   text-align: right;
-    //   // position: absolute;
-    //   // right: 5px;
-    //   // top: -2px;
-    //   // opacity: 0;
-    //   // transition: opacity .1s ease;
-    // }
   }
 }
 
@@ -581,11 +575,11 @@ table {
 }
 .gap-top {
   &.top {
-    margin-top: 25px;
+    margin-top: 30px;
   }
 
   + .gap-top {
-    margin-top: 10px;
+    margin-top: 16px;
   }
 }
 

@@ -2,7 +2,11 @@
   <component :is="Teleport" to="#root">
     <div
       :class="[$style.popup, {[$style.top]: isShowTop}, {[$style.active]: props.visible}]"
-      :style="popupStyle"
+      :style="[popupStyle, {
+        opacity: props.visible ? 1 : 0,
+        transform: props.visible ? 'translateY(0)' : (isShowTop ? 'translateY(4px)' : 'translateY(-4px)'),
+        pointerEvents: props.visible ? 'initial' : 'none',
+      }]"
       :aria-hidden="!props.visible"
       @click.stop
       @mouseenter="emit('mouseenter', $event)"
@@ -17,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, reactive } from '@common/utils/vueTools'
+import { ref, watch, onMounted, onBeforeUnmount, reactive, nextTick } from '@common/utils/vueTools'
 
 // https://github.com/vuejs/core/issues/2855#issuecomment-768388962
 import {
@@ -56,11 +60,11 @@ const arrowHeight = 9
 const arrowWidth = 8
 const sidePadding = 50
 
-watch(() => props.visible, (visible) => {
-  if (!visible || !dom_content.value || !props.btnEl) return
+const updatePosition = () => {
+  if (!props.visible || !dom_content.value || !props.btnEl) return
   const rect = props.btnEl.getBoundingClientRect()
-  const maxHeight = document.body.clientHeight
-  const elTop = rect.top - window.lx.rootOffset
+  const maxHeight = window.innerHeight
+  const elTop = rect.top
   const bottomTopVal = elTop + rect.height
   const contentHeight = dom_content.value.scrollHeight + arrowHeight + sidePadding
   if (bottomTopVal + contentHeight < maxHeight || (contentHeight > elTop && elTop <= maxHeight - bottomTopVal)) {
@@ -76,7 +80,7 @@ watch(() => props.visible, (visible) => {
 
   const maxWidth = document.body.clientWidth - 20
   let center = dom_content.value.clientWidth / 2
-  let left = rect.left + rect.width / 2 - window.lx.rootOffset - center
+  let left = rect.left + rect.width / 2 - center
   if (left < sidePadding) {
     center -= sidePadding - left
     left = sidePadding
@@ -87,6 +91,11 @@ watch(() => props.visible, (visible) => {
   }
   popupStyle.left = left + 'px'
   popupStyle['--arrow-left'] = center - arrowWidth + 'px'
+}
+
+watch(() => props.visible, (visible) => {
+  if (!visible) return
+  void nextTick(updatePosition)
 })
 
 const handleHide = (evt?: MouseEvent) => {
@@ -102,10 +111,14 @@ const handleHide = (evt?: MouseEvent) => {
 
 onMounted(() => {
   document.addEventListener('click', handleHide)
+  window.addEventListener('resize', updatePosition)
+  window.addEventListener('scroll', updatePosition, true)
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleHide)
+  window.removeEventListener('resize', updatePosition)
+  window.removeEventListener('scroll', updatePosition, true)
 })
 
 </script>
@@ -115,58 +128,40 @@ onBeforeUnmount(() => {
 @import '@renderer/assets/styles/layout.less';
 
 .popup {
-  position: absolute;
-  // top: -100%;
-  // width: 645px;
-  // left: 8px;
-  // margin-top: 12px;
+  position: fixed;
   max-width: 98%;
-  border-radius: 4px;
-  background-color: var(--color-content-background);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .7),
+    0 18px 42px rgba(76, 103, 124, .18);
   opacity: 0;
-  transform: scale(.8);
-  transform-origin: 50% 0 0;
-  transition: .16s ease;
-  transition-property: transform, opacity;
-  max-height: 250px;
-  z-index: 10;
+  transform: translateY(-4px);
+  transition: opacity @transition-fast, transform @transition-fast;
+  max-height: 350px;
+  z-index: 3100;
   pointer-events: none;
-  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, .12));
   display: flex;
-
-  &:before {
-    content: " ";
-    position: absolute;
-    top: -6px;
-    left: var(--arrow-left);
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--color-content-background);
-  }
+  overflow: hidden;
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
 
   &.active {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
     pointer-events: initial;
   }
 
   &.top {
-    filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, .12));
-    transform-origin: 50% 100% 0;
-
-    &:before {
-      top: 100%;
-      border-bottom: none;
-      border-top: 8px solid var(--color-content-background);
+    transform: translateY(4px);
+    &.active {
+      transform: translateY(0);
     }
   }
 }
 .list {
-  padding: 10px;
+  padding: 8px;
   box-sizing: border-box;
-  // box-shadow: 0 0 4px rgba(0, 0, 0, .2);
 }
 
 </style>

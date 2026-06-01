@@ -13,7 +13,7 @@ export default () => {
 
   const listInfo = ref<SearchListInfo>({
     page: 1,
-    limit: 30,
+    limit: 6,
     total: 0,
     list: [],
     key: null,

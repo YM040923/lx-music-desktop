@@ -61,7 +61,7 @@ const icon = computed(() => {
 
 .btn {
   position: relative;
-  // color: var(--color-button-font);
+  color: var(--color-button-font);
   justify-content: center;
   align-items: center;
   transition: color @transition-normal;
@@ -74,19 +74,15 @@ const icon = computed(() => {
   padding: 0;
 
   svg {
-    transition: opacity @transition-fast;
-    opacity: .6;
+    fill: currentColor;
+    opacity: 1;
     filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
   }
   &:hover {
-    svg {
-      opacity: .9;
-    }
+    opacity: .8;
   }
   &:active {
-    svg {
-      opacity: 1;
-    }
+    opacity: .6;
   }
 }
 

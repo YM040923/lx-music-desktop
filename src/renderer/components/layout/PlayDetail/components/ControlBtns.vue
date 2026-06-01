@@ -17,6 +17,7 @@ div(:class="$style.footerLeftControlBtns")
   common-sound-effect-btn
   common-playback-rate-btn
   common-volume-btn
+  common-current-playlist-btn(:button-class="$style.footerLeftControlBtn" @show="handleShowPlaylist")
   common-toggle-play-mode-btn
   button(:class="$style.footerLeftControlBtn" :aria-label="$t('player__add_music_to')" @click="isShowAddMusicTo = true")
     svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" space="preserve")
@@ -53,10 +54,18 @@ export default {
     // const saveMediaDeviceId = useCommit('setMediaDeviceId')
 
     const toggleVisibleLrc = () => {
-      setShowPlayLrcSelectContentLrc(!isShowLrcSelectContent.value)
+      const newValue = !isShowLrcSelectContent.value
+      if (newValue) setShowPlayComment(false)
+      setShowPlayLrcSelectContentLrc(newValue)
     }
     const toggleVisibleComment = () => {
-      setShowPlayComment(!isShowPlayComment.value)
+      const newValue = !isShowPlayComment.value
+      if (newValue) setShowPlayLrcSelectContentLrc(false)
+      setShowPlayComment(newValue)
+    }
+    const handleShowPlaylist = () => {
+      setShowPlayLrcSelectContentLrc(false)
+      setShowPlayComment(false)
     }
     const {
       nextTogglePlayName,
@@ -92,6 +101,7 @@ export default {
       toggleVisibleLrc,
       isShowPlayComment,
       toggleVisibleComment,
+      handleShowPlaylist,
       nextTogglePlayName,
       toggleNextPlayMode,
       toggleDesktopLyricBtnTitle,
@@ -113,38 +123,69 @@ export default {
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 
-  button {
-    width: 20px;
-    color: var(--color-font);
+  > * {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
   }
 
-  .footerLeftControlBtn {
-    // width: 18px;
-    // height: 18px;
-    opacity: .5;
+  > button,
+  > * > button {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .38);
+    color: rgba(35, 54, 67, .72);
     cursor: pointer;
-    transition: opacity @transition-normal;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-
-    &:hover {
-      opacity: .9;
-    }
-
-    &.active {
-      color: var(--color-primary);
-      opacity: .8;
-    }
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .52),
+      0 10px 24px rgba(76, 103, 124, .12);
+    transition:
+      transform @transition-fast,
+      background-color @transition-fast,
+      color @transition-fast,
+      box-shadow @transition-fast;
   }
 
-  .lrcBtn {
-    width: 20px;
+  > button svg,
+  > * > button svg {
+    width: 21px !important;
+    height: 21px !important;
+    fill: currentColor;
+    color: currentColor;
+    opacity: 1 !important;
+  }
+
+  > button:hover,
+  > * > button:hover {
+    color: var(--color-primary);
+    background: rgba(255, 255, 255, .58);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .62),
+      0 14px 28px rgba(76, 103, 124, .16);
+    transform: translateY(-1px);
+  }
+
+  > button:active,
+  > * > button:active {
+    transform: translateY(0) scale(.96);
+  }
+
+  .footerLeftControlBtn.active {
+    color: #fff;
+    background: var(--color-primary);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .28),
+      0 14px 30px var(--color-primary-alpha-700);
   }
 }
 

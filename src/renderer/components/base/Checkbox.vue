@@ -168,16 +168,17 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    border: 1px solid var(--color-font-label);
-    transition: border-color 0.2s ease;
-    border-radius: 2px;
+    border: none;
+    box-shadow: 0 0 0 1px var(--color-font-label);
+    transition: box-shadow 0.2s ease;
+    border-radius: 5px;
   }
 }
 .icon {
   transition: 0.3s ease;
   transition-property: transform;
   transform: scale(0);
-  border-radius: 2px;
+  border-radius: 5px;
   // opacity: 0;
 }
 

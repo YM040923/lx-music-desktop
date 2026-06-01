@@ -85,17 +85,21 @@ export default {
 
 .list {
   font-size: 12px;
-  position: absolute;
+  position: fixed;
   opacity: 0;
   transform: scale(0);
   transform-origin: 0 0 0;
   transition: .14s ease;
   transition-property: transform, opacity;
-  border-radius: @radius-border;
-  background-color: var(--color-content-background);
-  box-shadow: 0 1px 8px 0 rgba(0,0,0,.2);
-  z-index: 10;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .7),
+    0 18px 42px rgba(76, 103, 124, .18);
+  z-index: 3200;
   overflow: hidden;
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
   // will-change: transform;
 }
 .listItem {

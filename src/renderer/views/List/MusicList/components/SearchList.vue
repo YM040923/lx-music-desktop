@@ -236,7 +236,7 @@ export default {
 .search {
   position: absolute;
   width: 100%;
-  border-radius: 4px;
+  border-radius: @radius-border;
   transition: box-shadow .4s ease, background-color @transition-normal;
   display: flex;
   flex-flow: column nowrap;
@@ -329,7 +329,7 @@ export default {
       &.select {
         background-color: var(--color-primary-dark-100-alpha-700);
       }
-      border-radius: 4px;
+      border-radius: @radius-border;
       // &:last-child {
       //   border-bottom-left-radius: 4px;
       //   border-bottom-right-radius: 4px;

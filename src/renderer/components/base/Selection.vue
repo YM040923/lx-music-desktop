@@ -8,14 +8,16 @@
         </svg>
       </div>
     </div>
-    <ul v-if="show" ref="dom_list" class="selection-list scroll" :class="$style.list" :style="listStyles">
-      <li
-        v-for="(item, index) in list" :key="index" :class="[$style.listItem, (itemKey ? item[itemKey] : item) == modelValue ? $style.active : null]"
-        :aria-label="itemName ? item[itemName] : item" @click="handleClick(item)"
-      >
-        {{ itemName ? item[itemName] : item }}
-      </li>
-    </ul>
+    <teleport to="#root">
+      <ul v-if="show" ref="dom_list" class="selection-list scroll" :class="$style.list" :style="listStyles">
+        <li
+          v-for="(item, index) in list" :key="index" :class="[$style.listItem, (itemKey ? item[itemKey] : item) == modelValue ? $style.active : null]"
+          :aria-label="itemName ? item[itemName] : item" @click="handleClick(item)"
+        >
+          {{ itemName ? item[itemName] : item }}
+        </li>
+      </ul>
+    </teleport>
   </div>
 </template>
 
@@ -46,9 +48,7 @@ export default {
   data() {
     return {
       show: false,
-      listStyles: {
-        transform: 'scaleY(0) translateY(0)',
-      },
+      listStyles: {},
     }
   },
   computed: {
@@ -67,34 +67,52 @@ export default {
   },
   mounted() {
     document.addEventListener('click', this.handleHide, true)
+    window.addEventListener('resize', this.updateListPosition)
+    window.addEventListener('scroll', this.updateListPosition, true)
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleHide, true)
+    window.removeEventListener('resize', this.updateListPosition)
+    window.removeEventListener('scroll', this.updateListPosition, true)
   },
   methods: {
     handleHide(e) {
       if (!this.show) return
-      // if (e && e.target.parentNode != this.$refs.dom_list && this.show) return this.show = false
       if (e && (e.target == this.$refs.dom_btn || this.$refs.dom_btn.contains(e.target))) return
-      this.listStyles.transform = 'scaleY(0) translateY(0)'
-      setTimeout(() => {
-        this.show = false
-      }, 50)
+      if (e && this.$refs.dom_list && (e.target == this.$refs.dom_list || this.$refs.dom_list.contains(e.target))) return
+      this.show = false
     },
     handleClick(item) {
-      // console.log(this.modelValue)
+      this.show = false
       if (item === this.modelValue) return
       this.$emit('update:modelValue', this.itemKey ? item[this.itemKey] : item)
       this.$emit('change', item)
     },
     handleShow() {
-      this.show = true
+      this.show = !this.show
+      if (!this.show) return
       this.$nextTick(() => {
-        this.listStyles.transform = `scaleY(1) translateY(${this.handleGetOffset()}px)`
-
+        this.updateListPosition()
         const activeItem = this.$refs.dom_list.children[this.activeIndex]
         if (activeItem) this.$refs.dom_list.scrollTop = activeItem.offsetTop - this.$refs.dom_list.clientHeight * 0.38
       })
+    },
+    updateListPosition() {
+      if (!this.show || !this.$refs.dom_btn) return
+      const rect = this.$refs.dom_btn.getBoundingClientRect()
+      const gap = 6
+      const viewportGap = 12
+      const preferredHeight = Math.min(280, Math.max(120, this.list.length * 42 + 12))
+      const spaceBelow = window.innerHeight - rect.bottom - viewportGap
+      const spaceAbove = rect.top - viewportGap
+      const placeAbove = spaceBelow < Math.min(preferredHeight, 180) && spaceAbove > spaceBelow
+      const maxHeight = Math.max(120, Math.min(preferredHeight, placeAbove ? spaceAbove - gap : spaceBelow - gap))
+      this.listStyles = {
+        left: `${rect.left}px`,
+        top: `${placeAbove ? Math.max(viewportGap, rect.top - maxHeight - gap) : rect.bottom + gap}px`,
+        width: `${rect.width}px`,
+        maxHeight: `${maxHeight}px`,
+      }
     },
     handleGetOffset() {
       const listHeight = this.$refs.dom_list.clientHeight
@@ -118,6 +136,7 @@ export default {
 
 .select {
   display: inline-block;
+  vertical-align: middle;
   font-size: 12px;
   position: relative;
   width: var(--selection-width, 300px);
@@ -175,29 +194,29 @@ export default {
 }
 
 .list {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--color-content-background);
-  opacity: 0;
-  transform: scaleY(0) translateY(0);
-  transform-origin: 0 (@selection-height / 2) 0;
-  transition: .25s ease;
-  transition-property: transform, opacity;
-  z-index: 10;
-  border-radius: @form-radius;
-  box-shadow: 0 0 4px rgba(0, 0, 0, .15);
+  position: fixed;
+  background: rgba(255, 255, 255, .96);
+  opacity: 1;
+  z-index: 3000;
+  padding: 6px;
+  border-radius: 12px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .72),
+    0 18px 42px rgba(76, 103, 124, .18);
   overflow: auto;
-  max-height: 200px;
+  box-sizing: border-box;
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
 }
 .listItem {
   cursor: pointer;
-  padding: 0 10px;
-  line-height: @selection-height;
-  // color: var(--color-button-font);
+  padding: 0 12px;
+  line-height: 34px;
+  color: var(--color-font);
   outline: none;
-  transition: background-color @transition-normal;
+  border-radius: 8px;
+  transition: @transition-fast;
+  transition-property: color, background-color;
   background-color: transparent;
   box-sizing: border-box;
   .mixin-ellipsis-1();
@@ -209,7 +228,9 @@ export default {
     background-color: var(--color-button-background-active);
   }
   &.active {
-    color: var(--color-button-font);
+    color: var(--color-primary);
+    font-weight: 600;
+    background-color: var(--color-primary-light-900-alpha-600);
   }
 }
 

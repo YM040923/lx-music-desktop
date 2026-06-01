@@ -194,7 +194,7 @@ export default {
       border: 2px solid transparent;
       padding: 2px;
       transition: border-color .3s ease;
-      border-radius: 5px;
+      border-radius: @form-radius;
       &:after {
         display: block;
         content: ' ';

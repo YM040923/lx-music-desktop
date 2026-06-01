@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <div v-show="!props.listInfo.noItemLabel" ref="dom_list_ref" :class="$style.listContent" class="scroll">
-      <ul>
+      <ul :class="$style.grid">
         <li v-for="item in props.listInfo.list" :key="item.id" :class="$style.item" @click="toDetail(item)">
           <div :class="$style.image">
             <img :class="$style.img" loading="lazy" decoding="async" :src="item.img">
@@ -19,7 +19,7 @@
             </div>
           </div>
         </li>
-        <li v-for="(i, index) in 6" :key="index" :class="$style.item" style="margin-bottom: 0;height: 0;" />
+        <li v-for="(i, index) in 6" :key="index" :class="$style.itemPlaceholder" />
       </ul>
       <div :class="$style.pagination">
         <material-pagination :count="props.listInfo.total" :limit="props.listInfo.limit" :page="props.listInfo.page" @btn-click="togglePage" />
@@ -104,42 +104,41 @@ defineExpose({
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-  font-size: 14px;
   box-sizing: border-box;
-  padding: 15px 15px 0;
-
-  ul {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-  }
+  padding: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px 16px;
+  align-items: start;
+  padding: 4px;
 }
 .item {
-  max-width: 360px;
-  width: 32%;
   box-sizing: border-box;
+  min-width: 0;
   display: flex;
-  // flex-flow: column nowrap;
-  // padding: 10px;
-  margin-bottom: 20px;
+  flex-flow: column nowrap;
+  gap: 10px;
   cursor: pointer;
-  transition: opacity @transition-normal;
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--color-primary-light-900-alpha-600);
+  transition: background-color 0.15s ease;
   &:hover {
-    opacity: .7;
+    background: var(--color-primary-light-600-alpha-400);
   }
 }
+.itemPlaceholder {
+  height: 0;
+  min-height: 0;
+}
 .image {
-  flex: none;
-  width: 40%;
-  display: flex;
-  background-position: center;
-  background-size: cover;
-  border-radius: 4px;
+  width: 100%;
+  position: relative;
+  border-radius: 8px;
   overflow: hidden;
-  opacity: .9;
   aspect-ratio: 1 / 1;
-
-  box-shadow: 0 0 2px 0 rgba(0,0,0,.2);
 }
 .img {
   width: 100%;
@@ -148,40 +147,37 @@ defineExpose({
 }
 
 .desc {
-  flex: auto;
-  padding: 2px 15px 2px 7px;
   overflow: hidden;
+  min-height: 44px;
   h4 {
     font-size: 14px;
-    // height: 2.6em;
-    text-align: justify;
+    font-weight: 600;
     line-height: 1.3;
-    .mixin-ellipsis-2();
+    color: var(--color-font);
+    .mixin-ellipsis-1();
+    margin-bottom: 3px;
+  }
+  > div {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 2px;
   }
 }
 .songlist_info {
   display: flex;
   flex-flow: row nowrap;
-  gap: 15px;
-  margin-top: 8px;
+  gap: 10px;
   font-size: 12px;
   .mixin-ellipsis-1();
-  text-align: justify;
-  line-height: 1.2;
-  // text-indent: 24px;
+  line-height: 1.4;
   color: var(--color-font-label);
-  svg {
-    margin-right: 2px;
-  }
 }
-.author {
-  margin-top: 6px;
+.author, .time {
   font-size: 12px;
   .mixin-ellipsis-1();
-  text-align: justify;
-  line-height: 1.3;
-  // text-indent: 24px;
+  line-height: 1.4;
   color: var(--color-font-label);
+  margin: 0;
 }
 .time {
   margin-top: 3px;
@@ -194,7 +190,7 @@ defineExpose({
 }
 .pagination {
   text-align: center;
-  padding: 15px 0;
+  padding: 24px 0;
   // left: 50%;
   // transform: translateX(-50%);
 }

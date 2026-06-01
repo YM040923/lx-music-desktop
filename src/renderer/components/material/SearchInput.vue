@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.container">
-    <div :class="[$style.search, {[$style.active]: focus}, {[$style.big]: big}, {[$style.small]: small}]">
+    <div ref="dom_search" :class="[$style.search, {[$style.active]: focus}, {[$style.big]: big}, {[$style.small]: small}]">
       <div :class="$style.form">
         <input
           ref="dom_input"
@@ -31,19 +31,21 @@
           </slot>
         </button>
       </div>
-      <div v-if="list" :class="$style.list" :style="listStyle">
-        <ul ref="dom_list" @mouseleave="selectIndex = -1">
-          <li
-            v-for="(item, index) in list"
-            :key="item"
-            :class="{[$style.select]: selectIndex === index }"
-            @mouseenter="selectIndex = index"
-            @click="handleTemplistClick(index)"
-          >
-            <span>{{ item }}</span>
-          </li>
-        </ul>
-      </div>
+      <teleport to="#root">
+        <div v-if="list && isShow" class="scroll" :class="$style.list" :style="listStyle">
+          <ul ref="dom_list" @mouseleave="selectIndex = -1">
+            <li
+              v-for="(item, index) in list"
+              :key="item"
+              :class="{[$style.select]: selectIndex === index }"
+              @mouseenter="selectIndex = index"
+              @click="handleTemplistClick(index)"
+            >
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+        </div>
+      </teleport>
     </div>
   </div>
 </template>
@@ -57,7 +59,7 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: 'Search for something...',
+      default: '',
     },
     list: {
       type: Array,
@@ -90,6 +92,10 @@ export default {
       selectIndex: -1,
       focus: false,
       listStyle: {
+        left: '0px',
+        top: '0px',
+        width: '0px',
+        maxHeight: '0px',
         height: 0,
       },
     }
@@ -99,7 +105,7 @@ export default {
       if (!this.visibleList) return
       if (this.selectIndex > -1) this.selectIndex = -1
       this.$nextTick(() => {
-        this.listStyle.height = this.$refs.dom_list.scrollHeight + 'px'
+        this.updateListPosition()
       })
     },
     modelValue(n) {
@@ -112,9 +118,13 @@ export default {
   mounted() {
     if (appSetting['search.isFocusSearchBox']) this.handleFocusInput()
     this.handleRegisterEvent('on')
+    window.addEventListener('resize', this.updateListPosition)
+    window.addEventListener('scroll', this.updateListPosition, true)
   },
   beforeUnmount() {
     this.handleRegisterEvent('off')
+    window.removeEventListener('resize', this.updateListPosition)
+    window.removeEventListener('scroll', this.updateListPosition, true)
   },
   methods: {
     handleRegisterEvent(action) {
@@ -150,7 +160,9 @@ export default {
     },
     showList() {
       this.isShow = true
-      this.listStyle.height = this.$refs.dom_list.scrollHeight + 'px'
+      this.$nextTick(() => {
+        this.updateListPosition()
+      })
     },
     hideList() {
       this.isShow = false
@@ -158,6 +170,21 @@ export default {
       this.$nextTick(() => {
         this.selectIndex = -1
       })
+    },
+    updateListPosition() {
+      if (!this.isShow || !this.$refs.dom_search || !this.$refs.dom_list) return
+      const rect = this.$refs.dom_search.getBoundingClientRect()
+      const gap = 6
+      const viewportGap = 12
+      const maxHeight = Math.max(96, window.innerHeight - rect.bottom - viewportGap - gap)
+      const height = Math.min(this.$refs.dom_list.scrollHeight, maxHeight)
+      this.listStyle = {
+        left: `${rect.left}px`,
+        top: `${rect.bottom + gap}px`,
+        width: `${rect.width}px`,
+        maxHeight: `${maxHeight}px`,
+        height: `${height}px`,
+      }
     },
     sendEvent(action, data) {
       this.$emit('event', {
@@ -237,8 +264,8 @@ export default {
     input {
       flex: auto;
       // border: 1px solid;
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
+      border-top-left-radius: @form-radius;
+      border-bottom-left-radius: @form-radius;
       background-color: transparent;
       // border-bottom: 2px solid var(--color-primary);
       // border-color: var(--color-primary);
@@ -247,10 +274,10 @@ export default {
 
       outline: none;
       // height: @height-toolbar * .7;
-      padding: 0 5px;
+      padding: 0 12px;
       overflow: hidden;
-      font-size: 13.5px;
-      line-height: @height-toolbar * 0.52 + 5px;
+      font-size: 14px;
+      line-height: @height-toolbar * 0.6 + 5px;
       &::placeholder {
         color: var(--color-button-font);
         font-size: .98em;
@@ -264,13 +291,13 @@ export default {
       outline: none;
       cursor: pointer;
       height: 100%;
-      padding: 6px 7px;
+      padding: 8px 12px;
       color: var(--color-button-font);
       transition: background-color .2s ease;
 
       &:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-top-right-radius: @form-radius;
+        border-bottom-right-radius: @form-radius;
       }
 
       &:hover {
@@ -281,29 +308,36 @@ export default {
       }
     }
   }
-  .list {
-    // background-color: @color-search-form-background;
-    font-size: 13px;
-    transition: .3s ease;
-    height: 0;
-    transition-property: height;
-    overflow: hidden;
-    li {
-      cursor: pointer;
-      padding: 8px 5px;
-      transition: background-color .2s ease;
-      line-height: 1.3;
-      span {
-        .mixin-ellipsis-2();
-      }
+}
 
-      &.select {
-        background-color: var(--color-primary-dark-100-alpha-700);
-      }
-      &:last-child {
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-      }
+.list {
+  position: fixed;
+  z-index: 3200;
+  background: rgba(255, 255, 255, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .7),
+    0 18px 42px rgba(76, 103, 124, .18);
+  border-radius: 14px;
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  font-size: 13px;
+  overflow: auto;
+  li {
+    cursor: pointer;
+    padding: 10px 12px;
+    transition: background-color .2s ease;
+    line-height: 1.5;
+    span {
+      .mixin-ellipsis-2();
+    }
+
+    &.select {
+      background-color: var(--color-primary-light-800-alpha-500);
+      color: var(--color-primary);
+    }
+    &:last-child {
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
     }
   }
 }

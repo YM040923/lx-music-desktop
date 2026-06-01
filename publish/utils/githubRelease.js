@@ -32,8 +32,8 @@ const options = {
   body: changeLog,
   draft: false,
   prerelease: false,
-  repo: pkg.name,
-  owner: pkg.author,
+  repo: 'lx-music-desktop',
+  owner: 'YM040923',
   endpoint: 'https://api.github.com', // for GitHub enterprise, use http(s)://hostname/api/v3
   auth: {
     token,

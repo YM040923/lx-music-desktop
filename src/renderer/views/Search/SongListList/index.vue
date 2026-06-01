@@ -57,11 +57,8 @@ const togglePage = (page: number) => {
 <style lang="less" module>
 .container {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  padding-top: 5px;
+  inset: 0;
+  padding: 12px 16px 10px;
 }
 
 // .list {

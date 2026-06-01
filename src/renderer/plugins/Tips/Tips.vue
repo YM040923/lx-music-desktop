@@ -79,28 +79,26 @@ export default {
 
 .tips {
   position: fixed;
-  // transform: scale(1);
-  line-height: 1.2;
+  line-height: 1.4;
   word-wrap: break-word;
-  padding: 4px 5px;
+  padding: 8px 12px;
   z-index: 10001;
-  font-size: 12px;
-  // max-width: 80%;
+  font-size: var(--font-size-body);
   color: var(--color-font);
-  border-radius: 3px;
+  border-radius: @form-radius;
   background: var(--color-content-background);
   overflow: hidden;
   pointer-events: none;
-  // text-align: justify;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .15);
   white-space: pre-wrap;
   box-sizing: border-box;
+  border: 1px solid var(--color-primary-light-600-alpha-500);
 }
 
 :global(.tips-fade-enter-active), :global(.tips-fade-leave-active) {
-  transition: opacity .2s;
+  transition: opacity @transition-fast;
 }
-:global(.tips-fade-enter), :global(.tips-fade-leave-to) {
+:global(.tips-fade-enter-from), :global(.tips-fade-leave-to) {
   opacity: 0;
 }
 

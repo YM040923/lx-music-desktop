@@ -1,30 +1,38 @@
 <template lang="pug">
-transition(enter-active-class="animated slideInRight" leave-active-class="animated slideOutDown" @after-enter="handleAfterEnter" @after-leave="handleAfterLeave")
-  div(v-if="isShowPlayerDetail" :class="[$style.container, { fullscreen: isFullscreen }]" @contextmenu="handleContextMenu")
-    div(:class="$style.bg")
-    //- div(:class="$style.bg" :style="bgStyle")
-    //- div(:class="$style.bg2")
-    ControlBtnsLeftHeader(v-if="appSetting['common.controlBtnPosition'] == 'left'")
-    ControlBtnsRightHeader(v-else)
+transition(enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" @after-enter="handleAfterEnter" @after-leave="handleAfterLeave")
+  div(v-if="isShowPlayerDetail" :class="[$style.page, { fullscreen: isFullscreen }]" @contextmenu="handleContextMenu")
+    // Dynamic blurred album art background
+    div(:class="$style.backdrop")
+      img(v-if="musicInfo.pic" :class="$style.bgImg" :src="musicInfo.pic")
+      div(:class="$style.bgOverlay")
+    // Top bar
+    div(:class="$style.top")
+      ControlBtnsLeftHeader(v-if="appSetting['common.controlBtnPosition'] == 'left'")
+      ControlBtnsRightHeader(v-else)
+    // Main: two columns
     div(:class="[$style.main, {[$style.showComment]: isShowPlayComment}]")
-      div.left(:class="$style.left")
-        //- div(:class="$style.info")
-        div(:class="$style.info")
-          img(v-if="musicInfo.pic" :class="$style.img" :src="musicInfo.pic")
-          div.description(:class="['scroll', $style.description]")
-            p {{ $t('player__music_name') }}{{ musicInfo.name }}
-            p {{ $t('player__music_singer') }}{{ musicInfo.singer }}
-            p(v-if="musicInfo.album") {{ $t('player__music_album') }}{{ musicInfo.album }}
-
+      // Left: album art + info
+      div(:class="$style.left")
+        div(:class="$style.albumWrap")
+          img(v-if="musicInfo.pic" :class="$style.albumArt" :src="musicInfo.pic")
+          div(v-else :class="$style.albumPlaceholder")
+            svg(viewBox="0 0 24 24" width="48" height="48")
+              use(xlink:href="#icon-music")
+        div(:class="$style.meta")
+          h1(:class="$style.title") {{ musicInfo.name || 'YM Music' }}
+          p(:class="$style.artist") {{ musicInfo.singer || ' ' }}
+      // Right: lyrics
       transition(enter-active-class="animated fadeIn" leave-active-class="animated fadeOut")
         LyricPlayer(v-if="visibled")
-      music-comment(v-if="visibled" :class="$style.comment" :show="isShowPlayComment" :music-info="playMusicInfo.musicInfo" @close="hideComment")
+      // Comment panel
+      MusicComment(v-if="visibled" :class="$style.comment" :show="isShowPlayComment" :music-info="playMusicInfo.musicInfo" @close="hideComment")
+    // Bottom: playbar
     transition(enter-active-class="animated fadeIn" leave-active-class="animated fadeOut")
-      play-bar(v-if="visibled")
+      PlayBar(v-if="visibled")
+    // Visualizer
     transition(enter-active-class="animated-slow fadeIn" leave-active-class="animated-slow fadeOut")
       common-audio-visualizer(v-if="appSetting['player.audioVisualization'] && visibled")
 </template>
-
 
 <script>
 import { ref, watch } from '@common/utils/vueTools'
@@ -60,12 +68,9 @@ export default {
   },
   setup() {
     const visibled = ref(false)
-
     let clickTime = 0
 
-    const hide = () => {
-      setShowPlayerDetail(false)
-    }
+    const hide = () => { setShowPlayerDetail(false) }
     const handleContextMenu = () => {
       if (window.performance.now() - clickTime > 400) {
         clickTime = window.performance.now()
@@ -74,29 +79,20 @@ export default {
       clickTime = 0
       hide()
     }
-
-    const hideComment = () => {
-      setShowPlayComment(false)
-    }
-
+    const hideComment = () => { setShowPlayComment(false) }
     const handleAfterEnter = () => {
       if (isFullscreen.value) registerAutoHideMounse()
-
       visibled.value = true
     }
-
     const handleAfterLeave = () => {
       setShowPlayLrcSelectContentLrc(false)
       hideComment(false)
       visibled.value = false
-
       unregisterAutoHideMounse()
     }
-
     watch(isFullscreen, isFullscreen => {
       (isFullscreen ? registerAutoHideMounse : unregisterAutoHideMounse)()
     })
-
 
     return {
       appSetting,
@@ -112,171 +108,214 @@ export default {
       visibled,
       isFullscreen,
       fullscreenExit() {
-        void setFullScreen(false).then((fullscreen) => {
-          isFullscreen.value = fullscreen
-        })
+        void setFullScreen(false).then(f => { isFullscreen.value = f })
       },
-      min() {
-        minWindow()
-      },
-      max() {
-        maxWindow()
-      },
-      close() {
-        closeWindow()
-      },
+      min() { minWindow() },
+      max() { maxWindow() },
+      close() { closeWindow() },
     }
   },
 }
 </script>
 
-
 <style lang="less" module>
 @import '@renderer/assets/styles/layout.less';
 
-@control-btn-width: @height-toolbar * .26;
-
-.container {
+.page {
   position: absolute;
   display: flex;
   flex-flow: column nowrap;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: var(--color-content-background);
-  z-index: 10;
-  // -webkit-app-region: drag;
+  inset: 0;
+  z-index: 100;
   overflow: hidden;
   border-radius: @radius-border;
-  color: var(--color-font);
-  // border-left: 12px solid var(--color-primary-alpha-900);
   -webkit-app-region: no-drag;
-  contain: strict;
-
   box-sizing: border-box;
+  background: #eef7fa;
+  color: rgba(31, 43, 54, .88);
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 }
-.bg {
+
+// Dynamic blurred album art background
+.backdrop {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: var(--background-image) var(--background-image-position) no-repeat;
-  background-size: var(--background-image-size);
-  // background-size: 110% 110%;
-  // filter: blur(60px);
-  opacity: .7;
-  z-index: -1;
-  &:before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-app-background);
-  }
-  &:after {
-    position: absolute;
-    left: 0;
-    top: 0;
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-main-background);
-  }
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, #edf7fa 0%, #dfeff1 42%, #fbfdfe 100%);
 }
-// .bg2 {
-//   position: absolute;
-//   width: 100%;
-//   height: 100%;
-//   top: 0;
-//   left: 0;
-//   z-index: -1;
-//   background-color: rgba(255, 255, 255, .8);
-// }
 
+.bgImg {
+  position: absolute;
+  inset: -18%;
+  width: 136%;
+  height: 136%;
+  object-fit: cover;
+  filter: blur(76px) brightness(1.14) saturate(1.32);
+  opacity: .72;
+  transform: scale(1.06);
+  animation: bgPulse 26s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% { transform: scale(1.06); }
+  100% { transform: scale(1.1); }
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .62), rgba(245, 251, 252, .34) 48%, rgba(255, 255, 255, .60)),
+    linear-gradient(0deg, rgba(255, 255, 255, .46), rgba(255, 255, 255, .10) 46%, rgba(255, 255, 255, .30));
+}
+
+// Top bar
+.top {
+  position: relative;
+  z-index: 5;
+  flex: 0 0 62px;
+}
+
+// Main layout
 .main {
+  position: relative;
   flex: auto;
   min-height: 0;
-  overflow: hidden;
   display: flex;
-  margin: 0 30px;
-  position: relative;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  padding: 0 clamp(38px, 5vw, 76px) 14px;
+  z-index: 1;
+  gap: clamp(34px, 5vw, 72px);
+
+  :global {
+    .right {
+      min-width: 0;
+      padding: 8px 0 24px;
+    }
+  }
 
   &.showComment {
+    gap: 24px;
+
+    .left { flex: 0 0 23%; }
+
     :global {
-      .left {
-        flex-basis: 18%;
-        .description p {
-          font-size: 12px;
-        }
-      }
       .right {
-        flex-basis: 30%;
-        .lyricSelectContent {
-          font-size: 14px;
-        }
+        flex: 0 1 31%;
+        min-width: 0;
+        padding-right: 0;
       }
-      .comment {
-        opacity: 1;
-        transform: scaleX(1);
+
+      .lyricSelectContent {
+        font-size: 14px;
       }
+    }
+
+    .comment {
+      opacity: 1;
+      transform: scaleX(1);
+      pointer-events: auto;
     }
   }
 }
+
+// Left column: album art + info
 .left {
-  flex: 0 0 40%;
+  flex: 0 0 34%;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 13px;
+  justify-content: center;
+  gap: 22px;
+  padding: 10px 0 34px;
   overflow: hidden;
-  transition: flex-basis @transition-normal;
+  transition: flex 0.3s ease;
 }
 
-.info {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  max-width: 300px;
-  min-height: 0;
-}
-.img {
-  max-width: 100%;
-  max-height: 80%;
-  min-width: 100%;
-  box-shadow: 0 0 6px var(--color-primary-alpha-500);
-  border-radius: 6px;
-  opacity: .8;
-}
-.description {
-  max-width: 300px;
-  margin-top: 15px;
-  padding-bottom: 15px;
-  min-height: 0;
-  p {
-    line-height: 1.5;
-    font-size: 14px;
-    overflow-wrap: break-word;
+.albumWrap {
+  position: relative;
+  width: 66%;
+  max-width: 310px;
+  min-width: 180px;
+  aspect-ratio: 1 / 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, .62);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28);
+    pointer-events: none;
   }
 }
 
-
-.comment {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
+.albumArt {
+  width: 100%;
   height: 100%;
-  opacity: 1;
-  margin-left: 10px;
-  transform: scaleX(0);
+  object-fit: cover;
+  border-radius: 21px;
+  box-shadow:
+    0 24px 56px rgba(76, 103, 124, .24),
+    0 8px 20px rgba(76, 103, 124, .12);
 }
 
+.albumPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 21px;
+  background: rgba(255,255,255,0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(54, 76, 92, .28);
+}
 
+.meta {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(29, 41, 53, .9);
+  line-height: 1.3;
+  margin: 0 0 6px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  .mixin-ellipsis-1();
+}
+
+.artist {
+  font-size: 14px;
+  color: rgba(54, 70, 84, .58);
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  .mixin-ellipsis-1();
+}
+
+// Comment panel
+.comment {
+  flex: 0 0 0;
+  width: 0;
+  height: 100%;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: right center;
+  pointer-events: none;
+  overflow: hidden;
+  transition: transform 0.3s ease, opacity 0.2s ease, width 0.3s ease;
+}
+
+.showComment {
+  .comment {
+    flex-basis: 50%;
+    width: 50%;
+  }
+}
 </style>

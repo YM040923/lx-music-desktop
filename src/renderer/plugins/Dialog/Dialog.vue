@@ -74,21 +74,22 @@ export default {
 
 .main {
   flex: auto;
-  min-height: 40px;
-  padding: 15px 15px 0;
-  font-size: 14px;
-  // max-width: 320px;
-  min-width: 220px;
-  line-height: 1.5;
+  min-height: 48px;
+  padding: 24px 24px 8px;
+  font-size: var(--font-size-body-large);
+  min-width: 260px;
+  max-width: 400px;
+  line-height: 1.6;
   white-space: pre-line;
+  color: var(--color-font);
 }
 
 .footer {
   flex: none;
-  padding: 15px;
+  padding: 12px 24px 20px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  gap: 15px;
+  gap: 12px;
 }
 </style>

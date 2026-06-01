@@ -1,20 +1,14 @@
 import { httpGet } from './request'
-import pkg from '../../../package.json'
-
 // TODO add Notice
 
-const author = pkg.author.name
-const name = pkg.name
+const owner = 'YM040923'
+const repo = 'lx-music-desktop'
 
 const address = [
-  [`https://raw.githubusercontent.com/${author}/${name}/master/publish/version.json`, 'direct'],
-  ['https://registry.npmjs.org/lx-music-desktop-version-info/latest', 'npm'],
-  [`https://cdn.jsdelivr.net/gh/${author}/${name}/publish/version.json`, 'direct'],
-  [`https://fastly.jsdelivr.net/gh/${author}/${name}/publish/version.json`, 'direct'],
-  [`https://gcore.jsdelivr.net/gh/${author}/${name}/publish/version.json`, 'direct'],
-  ['https://registry.npmmirror.com/lx-music-desktop-version-info/latest', 'npm'],
-  ['https://gitee.com/lyswhut/lx-music-desktop-versions/raw/master/version.json', 'direct'],
-  ['http://cdn.stsky.cn/lx-music/desktop/version.json', 'direct'],
+  [`https://raw.githubusercontent.com/${owner}/${repo}/master/publish/version.json`, 'direct'],
+  [`https://cdn.jsdelivr.net/gh/${owner}/${repo}/publish/version.json`, 'direct'],
+  [`https://fastly.jsdelivr.net/gh/${owner}/${repo}/publish/version.json`, 'direct'],
+  [`https://gcore.jsdelivr.net/gh/${owner}/${repo}/publish/version.json`, 'direct'],
 ]
 
 const request = async(url, retryNum = 0) => {
@@ -38,26 +32,9 @@ const getDirectInfo = async(url) => {
   })
 }
 
-const getNpmPkgInfo = async(url) => {
-  return request(url).then(json => {
-    if (!json.versionInfo) throw new Error('failed')
-    const info = JSON.parse(json.versionInfo)
-    if (info.version == null) throw new Error('failed')
-    return info
-  })
-}
-
 export const getVersionInfo = async(index = 0) => {
-  const [url, source] = address[index]
-  let promise
-  switch (source) {
-    case 'direct':
-      promise = getDirectInfo(url)
-      break
-    case 'npm':
-      promise = getNpmPkgInfo(url)
-      break
-  }
+  const [url] = address[index]
+  const promise = getDirectInfo(url)
 
   return promise.catch(async(err) => {
     index++

@@ -20,7 +20,7 @@ interface ListInfos extends Partial<Record<LX.OnlineSource, SearchListInfo>> {
 export const listInfos: ListInfos = markRaw({
   all: reactive<SearchListInfo>({
     page: 1,
-    limit: 15,
+    limit: 6,
     total: 0,
     list: [],
     key: null,
@@ -35,7 +35,7 @@ for (const source of music.sources) {
   sources.push(source.id as LX.OnlineSource)
   listInfos[source.id as LX.OnlineSource] = reactive<SearchListInfo>({
     page: 1,
-    limit: 18,
+    limit: 6,
     total: 0,
     list: [],
     key: null,

@@ -173,6 +173,7 @@ function startMain() {
 function startElectron() {
   let args = [
     '--inspect=5858',
+    '--remote-debugging-port=9333',
     // 'NODE_ENV=development',
     path.join(__dirname, '../dist/main.js'),
   ]

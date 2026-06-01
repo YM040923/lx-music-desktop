@@ -162,61 +162,63 @@ export default {
 @import '@renderer/assets/styles/layout.less';
 
 .container {
-  // position: absolute;
-  // left: 0;
-  // top: 0;
-  // width: 100%;
-  // height: 100%;
   display: flex;
   flex-flow: column nowrap;
+  height: 100%;
+  padding: 20px 28px 24px;
+  gap: 20px;
+  box-sizing: border-box;
 }
 
 .songListHeader {
   flex: none;
   display: flex;
   flex-flow: row nowrap;
-  height: 80px;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  border-radius: @radius-border;
+  background: var(--color-main-background);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, .06);
 }
 .songListHeaderLeft {
   flex: none;
-  margin-left: 15px;
-  height: 100%;
-  aspect-ratio: 1 / 1;
+  width: 100px;
+  height: 100px;
   position: relative;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: @radius-border;
   background-position: center;
   background-size: cover;
-  opacity: .9;
-  box-shadow: 0 0 2px 0 rgba(0,0,0,.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
 }
 .playNum {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 4px;
-  background-color: rgba(0, 0, 0, 0.4);
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
   text-align: right;
   .mixin-ellipsis-1();
 }
 
 .songListHeaderMiddle {
   flex: auto;
-  padding: 2px 7px;
   min-width: 0;
   h3 {
     .mixin-ellipsis-1();
-    line-height: 1.2;
-    padding-bottom: 5px;
+    font-size: 18px;
+    line-height: 1.3;
+    padding-bottom: 6px;
     color: var(--color-font);
   }
   p {
-    .mixin-ellipsis(3);
-    font-size: 12px;
-    line-height: 1.2;
+    .mixin-ellipsis(2);
+    font-size: 13px;
+    line-height: 1.4;
     color: var(--color-font-label);
   }
 }
@@ -224,18 +226,12 @@ export default {
   flex: none;
   display: flex;
   align-items: center;
-  padding-right: 15px;
+  gap: 8px;
 
   .headerRightBtn {
-    border-radius: 0;
-    &:first-child {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-    &:last-child {
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
+    border-radius: @form-radius;
+    padding: 8px 16px;
+    font-size: 13px;
   }
 }
 
@@ -245,6 +241,10 @@ export default {
   min-height: 0;
   flex: auto;
   height: 100%;
+  border-radius: @radius-border;
+  background: var(--color-main-background);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, .06);
+  overflow: hidden;
 }
 </style>
 

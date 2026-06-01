@@ -62,22 +62,24 @@ export default {
 // }
 
 .listItem {
-  border-bottom: 1px dashed var(--color-primary-alpha-700);
+  border-bottom: 1px solid rgba(65, 91, 108, .1);
 }
 
 .content {
-  padding: 12px 0;
+  padding: 14px 0;
   font-size: 13px;
-  color: var(--color-font);
+  color: rgba(35, 50, 63, .78);
   display: flex;
 }
 .left {
   flex: none;
 }
 .avatar {
-  width: 40px;
-  border-radius: 4px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .15);
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(76, 103, 124, .14);
 }
 .right {
   flex: auto;
@@ -92,7 +94,7 @@ export default {
   width: 100%;
   height: 40px;
   line-height: 1.3;
-  color: var(--color-450);
+  color: rgba(43, 58, 71, .48);
 }
 .baseInfo {
   height: 100%;
@@ -113,7 +115,8 @@ export default {
   flex: 0 1 auto;
   min-width: 0;
   .mixin-ellipsis-1();
-  color: var(--color-650);
+  color: rgba(29, 43, 56, .86);
+  font-weight: 600;
 }
 .label {
   flex: none;
@@ -126,20 +129,22 @@ export default {
   text-align: right;
   padding-top: 3px;
   align-self: flex-start;
+  color: rgba(43, 58, 71, .48);
 }
 .likesIcon {
   width: 12px;
   height: 12px;
   margin-right: 3px;
-  color: var(--color-primary-alpha-500);
+  color: var(--color-primary);
 }
 .comment_text {
   text-align: justify;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.65;
   word-break: break-all;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  color: rgba(35, 50, 63, .76);
 }
 .comment_images {
   display: flex;
@@ -155,7 +160,7 @@ export default {
 .reply_floor {
   padding: 0 0 0 @padding;
   margin-left: @padding * 2;
-  border-radius: .5rem;
+  border-radius: 14px;
   &:last-child {
     margin-bottom: 12px;
   }
@@ -166,7 +171,7 @@ export default {
     margin-right: 10px;
   }
 
-  background-color: var(--color-primary-light-500-alpha-700);
+  background-color: rgba(255, 255, 255, .38);
 }
 
 

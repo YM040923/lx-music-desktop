@@ -90,6 +90,7 @@ const modules = {
     key_down: 'key_down',
     quit: 'quit',
     min_toggle: 'min_toggle',
+    toggle_max: 'toggle_max',
     hide_toggle: 'hide_toggle',
 
     get_other_source: 'get_other_source',

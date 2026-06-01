@@ -23,7 +23,7 @@ export const listInfos: ListInfos = markRaw({
   all: reactive<ListInfo>({
     page: 1,
     maxPage: 0,
-    limit: 30,
+    limit: 6,
     total: 0,
     list: [],
     key: null,
@@ -37,7 +37,7 @@ for (const source of music.sources) {
   listInfos[source.id as LX.OnlineSource] = reactive<ListInfo>({
     page: 1,
     maxPage: 0,
-    limit: 30,
+    limit: 6,
     total: 0,
     list: [],
     key: '',

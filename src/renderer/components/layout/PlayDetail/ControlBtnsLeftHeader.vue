@@ -4,8 +4,11 @@ div(:class="$style.header")
     button(type="button" :class="$style.hide" :aria-label="$t('player__hide_detail_tip')" ignore-tip :title="$t('player__hide_detail_tip')" @click="hide")
       svg(:class="$style.controBtnIcon" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="80%" viewBox="0 0 30.727 30.727" space="preserve")
         use(xlink:href="#icon-window-hide")
+    button(type="button" :class="$style.fullscreenEnter" :aria-label="$t('fullscreen')" ignore-tip :title="$t('fullscreen')" @click="fullscreenEnter")
+      svg(:class="$style.controBtnIcon" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 24 24")
+        use(xlink:href="#icon-window-maximize-2")
     button(type="button" :class="$style.fullscreenExit" :aria-label="$t('fullscreen_exit')" ignore-tip :title="$t('fullscreen_exit')" @click="fullscreenExit")
-      svg(:class="$style.controBtnIcon" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%")
+      svg(:class="$style.controBtnIcon" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 24 24")
         use(xlink:href="#icon-fullscreen-exit")
     button(type="button" :class="$style.min" :aria-label="$t('min')" ignore-tip :title="$t('min')" @click="minWindow")
       svg(:class="$style.controBtnIcon" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 24 24" space="preserve")
@@ -56,6 +59,12 @@ const hide = () => {
   dom_btns.value?.classList.remove(cssModule.hover)
   setShowPlayerDetail(false)
 }
+const fullscreenEnter = () => {
+  dom_btns.value?.classList.remove(cssModule.hover)
+  void setFullScreen(true).then((fullscreen) => {
+    isFullscreen.value = fullscreen
+  })
+}
 const fullscreenExit = () => {
   dom_btns.value?.classList.remove(cssModule.hover)
   void setFullScreen(false).then((fullscreen) => {
@@ -78,6 +87,9 @@ const fullscreenExit = () => {
     align-self: flex-start;
     .controBtn {
       .close, .min {
+        display: none;
+      }
+      .fullscreenEnter {
         display: none;
       }
       .fullscreenExit {
@@ -142,7 +154,7 @@ const fullscreenExit = () => {
       &.hide {
         background-color: var(--color-btn-hide);
       }
-      &.min, &.fullscreenExit {
+      &.min, &.fullscreenEnter, &.fullscreenExit {
         background-color: var(--color-btn-min);
       }
       // &.max {

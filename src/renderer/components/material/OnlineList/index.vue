@@ -24,7 +24,7 @@
         </table>
       </div>
       <div :class="$style.content">
-        <div v-show="!noItem" ref="dom_listContent" :class="$style.content">
+        <div v-show="!noItem" ref="dom_listContent" :class="$style.resultContent">
           <base-virtualized-list v-if="actionButtonsVisible" ref="listRef" :list="list" key-name="id" :item-height="listItemHeight" container-class="scroll" content-class="list" @contextmenu.capture="handleListRightClick">
             <template #default="{ item, index }">
               <div
@@ -47,11 +47,6 @@
                 </div>
               </div>
             </template>
-            <template #footer>
-              <div :class="$style.pagination">
-                <material-pagination :count="total" :limit="limit" :page="page" @btn-click="$emit('togglePage', $event)" />
-              </div>
-            </template>
           </base-virtualized-list>
           <base-virtualized-list v-else ref="listRef" :list="list" key-name="id" :item-height="listItemHeight" container-class="scroll" content-class="list" @contextmenu.capture="handleListRightClick">
             <template #default="{ item, index }">
@@ -72,12 +67,10 @@
                 <div class="list-item-cell" style="flex: 0 0 10%;"><span class="no-select">{{ item.interval || '--/--' }}</span></div>
               </div>
             </template>
-            <template #footer>
-              <div :class="$style.pagination">
-                <material-pagination :count="total" :limit="limit" :page="page" @btn-click="$emit('togglePage', $event)" />
-              </div>
-            </template>
           </base-virtualized-list>
+          <div :class="$style.pagination">
+            <material-pagination :count="total" :limit="limit" :page="page" @btn-click="$emit('togglePage', $event)" />
+          </div>
         </div>
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
           <div v-show="noItem" :class="$style.noitem">
@@ -313,9 +306,28 @@ export default {
   height: 100%;
 }
 
+.resultContent {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+  padding-bottom: 54px;
+  box-sizing: border-box;
+
+  > :first-child {
+    flex: auto;
+    min-height: 0;
+  }
+}
+
 .pagination {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
   text-align: center;
-  padding: 15px 0;
+  padding: 0;
   // left: 50%;
   // transform: translateX(-50%);
 }

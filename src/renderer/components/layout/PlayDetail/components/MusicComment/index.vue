@@ -251,16 +251,21 @@ export default {
   transition-property: transform,opacity;
   transform-origin: 100%;
   overflow: hidden;
+  padding: 4px 0 14px 18px;
+  color: rgba(35, 50, 63, .82);
+  box-sizing: border-box;
 }
 .commentHeader {
   flex: none;
-  padding-bottom: 5px;
+  padding: 0 10px 10px 2px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   // border-bottom: 1px solid #eee;
   h3 {
-    font-size: 14px;
+    font-size: 15px;
+    color: rgba(29, 43, 56, .88);
+    font-weight: 600;
     .mixin-ellipsis-1();
     line-height: 1.2;
   }
@@ -270,35 +275,46 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  color: var(--color-primary);
+  color: rgba(35, 54, 67, .64);
 }
 .commentHeaderBtn {
-  height: 22px;
-  width: 22px;
+  height: 30px;
+  width: 30px;
   cursor: pointer;
-  transition: opacity @transition-normal;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity @transition-normal, background-color @transition-normal;
 
   +.commentHeaderBtn {
-    margin-left: 5px;
+    margin-left: 8px;
   }
 
   &:hover {
-    opacity: .7;
+    color: var(--color-primary);
+    background: rgba(255, 255, 255, .48);
   }
 }
 .commentMain {
   flex: auto;
-  background-color: var(--color-primary-light-400-alpha-700);
-  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(247, 251, 252, .50));
+  border-radius: 18px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .58),
+    0 22px 58px rgba(76, 103, 124, .16);
+  backdrop-filter: blur(32px) saturate(1.12);
+  -webkit-backdrop-filter: blur(32px) saturate(1.12);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .tab_header {
   display: flex;
   flex-flow: row nowrap;
   gap: 15px;
-  padding-left: 15px;
-  padding-right: 10px;
+  padding: 8px 16px 2px;
 }
 .tab_main {
   flex: auto;
@@ -319,29 +335,33 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  padding-left: 15px;
-  padding-right: 10px;
+  padding: 4px 16px 10px;
   scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 .commentLabel {
   padding: 15px;
-  color: var(--color-font-label);
+  color: rgba(43, 58, 71, .58);
   font-size: 14px;
 }
 .commentType {
-  padding: 5px;
+  padding: 7px 12px;
   margin: 5px 0;
   font-size: 13px;
-  background: none;
+  color: rgba(43, 58, 71, .62);
+  background: rgba(255, 255, 255, .34);
   border: none;
+  border-radius: 999px;
   cursor: pointer;
   transition: @transition-normal;
-  transition-property: opacity, color;
+  transition-property: opacity, color, background-color;
   &:hover {
-    opacity: .7;
+    color: rgba(29, 43, 56, .9);
+    background: rgba(255, 255, 255, .58);
   }
   &.active {
-    color: var(--color-primary);
+    color: #fff;
+    background: var(--color-primary-alpha-500);
   }
 }
 .commentFloor {
@@ -361,7 +381,7 @@ export default {
   padding-top: 10%;
   text-align: center;
   font-size: 14px;
-  color: var(--color-font-label);
+  color: rgba(43, 58, 71, .58);
 }
 
 </style>

@@ -1,15 +1,31 @@
 <template>
-  <div ref="dom_menu" :class="$style.menu">
+  <nav ref="dom_menu" :class="$style.menu" aria-label="Primary">
     <ul :class="$style.list" role="toolbar">
       <li v-for="item in menus" :key="item.to" :class="$style.navItem" role="presentation">
-        <router-link :class="[$style.link, {[$style.active]: $route.meta.name == item.name}]" role="tab" :aria-selected="$route.meta.name == item.name" :to="item.to" :aria-label="item.tips">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" :viewBox="item.iconSize" :height="item.size" :width="item.size" space="preserve">
-            <use :xlink:href="item.icon" />
-          </svg>
+        <router-link
+          :class="[$style.link, { [$style.active]: $route.meta.name == item.name }]"
+          role="tab"
+          :aria-selected="$route.meta.name == item.name"
+          :to="item.to"
+          :aria-label="item.tips"
+        >
+          <span :class="$style.itemInner">
+            <svg
+              :class="$style.icon"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xlink="http://www.w3.org/1999/xlink"
+              :viewBox="item.iconSize"
+              space="preserve"
+            >
+              <use :xlink:href="item.icon" />
+            </svg>
+            <span :class="$style.label">{{ item.tips }}</span>
+          </span>
         </router-link>
       </li>
     </ul>
-  </div>
+  </nav>
 </template>
 
 <script lang="ts">
@@ -98,115 +114,113 @@ export default {
 
 .menu {
   flex: auto;
-  // &.controlBtnLeft {
-  //   display: flex;
-  //   flex-flow: column nowrap;
-  //   justify-content: center;
-  //   padding-bottom: @control-btn-height;
-  // }
-  // padding: 5px;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  -webkit-app-region: no-drag;
 }
 .list {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 12px;
+  padding: 4px 0;
   -webkit-app-region: no-drag;
-  // margin-bottom: 15px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-  // background-color: pink;
-  // dt {
-  //   padding-left: 5px;
-  //   font-size: 11px;
-  //   transition: @transition-normal;
-  //   transition-property: color;
-  //   color: @color-theme-font-label;
-  //   .mixin-ellipsis-1();
-  // }
 }
 .navItem {
-  position: relative;
-  &:before {
-    content: '';
-    display: block;
-    width: 100%;
-    padding-bottom: 84%;
-  }
+  flex: none;
 }
 .link {
-  position: absolute;
-  left: 0%;
-  top: 0%;
   width: 100%;
-  height: 100%;
-  // left: 15%;
-  // top: 15%;
-  // width: 70%;
-  // height: 70%;
-  // display: block;
+  min-height: 76px;
   box-sizing: border-box;
-  // text-decoration: none;
-  // border-radius: 20%;
-
-  // padding: 18px 3px;
-  // margin: 5px 0;
-  // border-left: 5px solid transparent;
-  transition: @transition-fast;
-  transition-property: background-color, opacity;
-  color: var(--color-nav-font);
-  cursor: pointer;
-  // font-size: 11.5px;
-  text-align: center;
-  outline: none;
+  padding: 0 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  // border-radius: @radius-border;
+  color: var(--color-font-label);
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-family: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  transition: color @transition-fast, opacity @transition-fast, transform @transition-fast;
   .mixin-ellipsis-1();
-  &:before {
-    .mixin-after();
-    left: 0;
-    top: 0;
-    width: 3px;
-    height: 100%;
-    background-color: var(--color-primary-dark-200-alpha-700);
-    border-radius: 4px;
-    transform: translateX(-100%);
-    transition: transform @transition-fast;
-  }
 
   &.active {
-    // border-left-color: @color-theme-active;
-    background-color: var(--color-primary-light-300-alpha-700);
-
-    &:before {
-      transform: translateX(0);
-    }
-
-    &:hover {
-      background-color: var(--color-primary-light-300-alpha-800);
-    }
+    color: var(--color-primary);
+    font-weight: 500;
   }
-
 
   &:hover {
-    color: var(--color-nav-font);
-
     &:not(.active) {
-      opacity: .8;
-      background-color: var(--color-primary-light-400-alpha-700);
+      color: var(--color-nav-font);
+      transform: translateY(-1px);
     }
   }
+
   &:active:not(.active) {
-    opacity: .6;
-    background-color: var(--color-primary-light-300-alpha-600);
+    opacity: .75;
+    transform: translateY(0);
   }
 }
 
-// .icon {
-//   // margin-bottom: 5px;
-//   &> svg {
-//     width: 32%;
-//   }
-// }
+.itemInner {
+  width: 100%;
+  min-height: 66px;
+  padding: 8px 8px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  box-sizing: border-box;
+  transition: transform @transition-fast;
+
+  .link:not(.active):hover & {
+    transform: translateY(-1px);
+  }
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  flex: none;
+  fill: currentColor;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.16));
+  opacity: .85;
+
+  .active & {
+    opacity: 1;
+  }
+}
+
+.label {
+  max-width: 88%;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-align: center;
+  background-color: transparent;
+  transition: background-color @transition-fast, box-shadow @transition-fast, color @transition-fast;
+  .mixin-ellipsis-1();
+
+  .active & {
+    color: #fff;
+    background-color: var(--color-primary);
+    box-shadow: 0 8px 20px var(--color-primary-alpha-600);
+  }
+
+  .link:not(.active):hover & {
+    background-color: var(--color-primary-light-600-alpha-800);
+  }
+}
 
 </style>

@@ -98,7 +98,7 @@ export const search = async(text: string, page: number, sourceId: LX.OnlineSourc
         console.log(error)
         return {
           allPage: 1,
-          limit: 30,
+          limit: listInfos.all.limit,
           list: [],
           source,
           total: 0,

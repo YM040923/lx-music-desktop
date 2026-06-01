@@ -69,7 +69,16 @@ const handle_selection = (event: LX.KeyDownEevent) => {
   event.event?.preventDefault()
 }
 
+// Detect maximized state to remove body padding
+const updateMaximized = () => {
+  const maximized = window.outerWidth >= screen.availWidth && window.outerHeight >= screen.availHeight
+  document.body.style.padding = maximized ? '0' : ''
+}
+
 export default () => {
+  window.addEventListener('resize', updateMaximized)
+  updateMaximized()
+
   watch(isFullscreen, val => {
     if (val) {
       document.documentElement.classList.remove(window.dt ? 'disableTransparent' : 'transparent')

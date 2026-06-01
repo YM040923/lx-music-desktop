@@ -58,42 +58,36 @@ export default {
 .list {
   display: flex;
   flex-flow: row nowrap;
-  font-size: 12px;
-  gap: 25px;
-  padding: 0 15px;
+  font-size: 13px;
+  gap: 4px;
+  padding: 4px;
+  border-radius: @form-radius;
+  background: var(--color-primary-light-800-alpha-500);
 
-  &.left {
-    justify-content: flex-start;
-  }
-  &.center {
-    justify-content: center;
-  }
-  &.right {
-    justify-content: flex-end;
-  }
+  &.left { justify-content: flex-start; }
+  &.center { justify-content: center; }
+  &.right { justify-content: flex-end; }
 }
+
 .listItem {
   display: block;
-  // padding: 5px 15px;
   cursor: pointer;
-  transition: color @transition-normal;
-
+  border-radius: 8px;
+  transition: background-color @transition-fast, color @transition-fast;
 
   &:hover {
     color: var(--color-primary);
+    background: var(--color-primary-light-900-alpha-700);
   }
 
-
   &.active {
-    color: var(--color-primary);
+    color: var(--color-000);
     cursor: default;
+    background: var(--color-primary);
+    box-shadow: 0 2px 8px var(--color-primary-alpha-400);
 
     >.label {
-      &:after {
-        // background-color: var(--color-primary);
-        opacity: 1;
-        transform: translateY(0);
-      }
+      &:after { display: none; }
     }
   }
 }
@@ -101,20 +95,9 @@ export default {
 .label {
   display: block;
   position: relative;
-  padding: 8px 0;
-  &:after {
-    .mixin-after();
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    border-radius: 20px;
-    background-color: transparent;
-    transform: translateY(-4px);
-    opacity: 0;
-    background-color: var(--color-primary-alpha-300);
-    transition: @transition-fast;
-    transition-property: transform, opacity;
-  }
+  padding: 6px 14px;
+  font-size: 13px;
+  line-height: 1.4;
 }
+
 </style>

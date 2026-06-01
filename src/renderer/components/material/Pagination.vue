@@ -110,72 +110,68 @@ export default {
 @import '@renderer/assets/styles/layout.less';
 
 .pagination {
-  display: inline-block;
-  background-color: var(--color-button-background);
-  // border-top-left-radius: 8px;
-  border-radius: @radius-border;
+  display: inline-flex;
+  max-width: 100%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .56);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .62),
+    0 8px 22px rgba(76, 103, 124, .1);
   ul {
     display: flex;
     flex-flow: row nowrap;
-    // border: .0625rem solid @theme_color2;
-    // border-radius: .3125rem;
+    align-items: center;
+    gap: 3px;
+    padding: 4px;
     li {
-      // margin-right: @padding;
-      // color: var(--color-button-font);
-      // border: .0625rem solid @theme_line;
-      // border-radius: .3125rem;
-      transition: 0.4s ease;
-      transition-property: all;
-      line-height: 1.2;
       display: flex;
-      // border-right: none;
+      flex: none;
+      line-height: 1;
       svg {
-        height: 1em;
+        width: 13px;
+        height: 13px;
       }
       span,
       button {
-        display: block;
-        padding: 7px 12px;
-        line-height: 1.2;
-        color: var(--color-button-font);
+        min-width: 30px;
+        height: 30px;
+        padding: 0 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        color: var(--color-font-label);
         font-size: 13px;
+        line-height: 1;
+        box-sizing: border-box;
       }
       &.active {
         span {
-          background-color: var(--color-button-background-selected);
+          color: var(--color-000);
+          background: var(--color-primary);
+          box-shadow: 0 3px 10px var(--color-primary-alpha-400);
         }
       }
       button {
-        background-color: transparent;
+        background: transparent;
         border: none;
         cursor: pointer;
         outline: none;
-        transition: background-color .3s ease;
+        transition: @transition-fast;
+        transition-property: background-color, color, transform;
         &:hover {
-          background-color: var(--color-button-background-hover);
+          color: var(--color-primary);
+          background: var(--color-primary-light-800-alpha-500);
         }
         &:active {
-          background-color: var(--color-button-background-active);
+          transform: scale(.94);
+          background: var(--color-primary-light-700-alpha-600);
         }
       }
       &.disabled {
         span {
-          opacity: .3;
+          opacity: .28;
         }
-      }
-      &:first-child {
-        span, button {
-          border-top-left-radius: @radius-border;
-          border-bottom-left-radius: @radius-border;
-        }
-        // border-right: .0625rem solid @theme_line;
-      }
-      &:last-child {
-        span, button {
-          border-top-right-radius: @radius-border;
-          border-bottom-right-radius: @radius-border;
-        }
-        // border-right: .0625rem solid @theme_line;
       }
       &:first-child, &:last-child, &.first, &.last {
         span,

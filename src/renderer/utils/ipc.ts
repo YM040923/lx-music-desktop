@@ -695,6 +695,13 @@ export const maxWindow = () => {
 }
 
 /**
+ * 最大化/恢复窗口切换
+ */
+export const toggleMaxWindow = () => {
+  rendererSend(WIN_MAIN_RENDERER_EVENT_NAME.toggle_max)
+}
+
+/**
  * 最小化、最大化窗口切换
  */
 export const minMaxWindowToggle = () => {

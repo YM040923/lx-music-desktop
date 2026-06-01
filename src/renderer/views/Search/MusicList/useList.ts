@@ -16,7 +16,7 @@ export default () => {
   const listInfo = ref<ListInfo>({
     page: 1,
     maxPage: 0,
-    limit: 30,
+    limit: 6,
     total: 0,
     list: [],
     key: null,

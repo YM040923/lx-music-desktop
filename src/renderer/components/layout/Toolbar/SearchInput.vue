@@ -28,6 +28,11 @@ export default {
     const router = useRouter()
 
     watch(() => route.name, (newValue, oldValue) => {
+      visibleList.value = false
+      isFocused = false
+      if (document.activeElement instanceof HTMLElement && document.activeElement.tagName == 'INPUT') {
+        document.activeElement.blur()
+      }
       if (oldValue == 'Search' && newValue != 'SongListDetail') {
         setTimeout(() => {
           if (appSetting['odc.isAutoClearSearchInput'] && searchText.value) searchText.value = ''

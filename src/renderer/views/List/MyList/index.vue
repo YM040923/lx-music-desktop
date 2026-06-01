@@ -252,18 +252,25 @@ export default {
 <style lang="less" module>
 @import '@renderer/assets/styles/layout.less';
 
-@lists-item-height: 36px;
+@lists-item-height: 44px;
 .lists {
   flex: none;
   width: 16%;
+  min-width: 180px;
   display: flex;
   flex-flow: column nowrap;
+  border-radius: @radius-border;
+  background: var(--color-main-background);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, .06);
+  overflow: hidden;
 }
 .listHeader {
   position: relative;
   display: flex;
   flex-flow: row nowrap;
-  border-bottom: var(--color-list-header-border-bottom);
+  align-items: center;
+  padding: 0 8px 0 16px;
+  height: 44px;
   &:hover {
     .listsAdd {
       opacity: 1;
@@ -272,9 +279,10 @@ export default {
 }
 .listsTitle {
   flex: auto;
-  font-size: 12px;
-  line-height: 38px;
-  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 44px;
+  color: var(--color-font);
   .mixin-ellipsis-1();
 }
 .headerBtns {
@@ -282,44 +290,36 @@ export default {
   display: flex;
 }
 .listsAdd {
-  // position: absolute;
-  // right: 0;
-  margin-top: 6px;
   background: none;
-  height: 30px;
+  height: 32px;
+  width: 32px;
   border: none;
   outline: none;
-  border-radius: @radius-border;
+  border-radius: 8px;
   cursor: pointer;
-  opacity: .1;
-  transition: opacity @transition-normal;
+  opacity: .5;
+  transition: opacity @transition-fast, background-color @transition-fast;
   color: var(--color-button-font);
-  svg {
-    vertical-align: bottom;
-  }
-  &:active {
-    opacity: .7 !important;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
-    opacity: .6 !important;
+    opacity: 1;
+    background: var(--color-primary-light-600-alpha-400);
   }
 }
 .listsContent {
   flex: auto;
   min-width: 0;
   overflow-y: scroll !important;
-  // border-right: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 4px 8px;
 
   &.sortable {
-    * {
-      -webkit-user-drag: element;
-    }
-
+    * { -webkit-user-drag: element; }
     .listsItem {
       &:hover, &.active, &.selected, &.clicked {
         background-color: transparent !important;
       }
-
       &.dragingItem {
         background-color: var(--color-primary-background-hover) !important;
       }
@@ -328,24 +328,23 @@ export default {
 }
 .listsItem {
   position: relative;
-  transition: .3s ease;
-  transition-property: color, background-color, opacity;
+  border-radius: @form-radius;
+  transition: background-color @transition-fast, color @transition-fast;
   background-color: transparent;
-  &:not(.active) {
-    &:hover {
-      background-color: var(--color-primary-background-hover);
-      cursor: pointer;
-    }
+  &:not(.active):hover {
+    background-color: var(--color-primary-light-600-alpha-400);
+    cursor: pointer;
   }
   &.active {
-    // background-color:
     color: var(--color-primary);
+    font-weight: 600;
+    background-color: var(--color-primary-light-400-alpha-500);
   }
   &.selected {
-    background-color: var(--color-primary-font-active);
+    background-color: var(--color-primary-light-1000-alpha-600);
   }
   &.clicked {
-    background-color: var(--color-primary-background-hover);
+    background-color: var(--color-primary-light-1000-alpha-700);
   }
   &.fetching {
     opacity: .5;
@@ -353,24 +352,14 @@ export default {
   &.editing {
     padding: 0 10px;
     background-color: var(--color-primary-background-hover);
-    .listsLabel {
-      display: none;
-    }
-    .listsInput {
-      display: block;
-    }
+    .listsLabel { display: none; }
+    .listsInput { display: block; }
   }
-}
-.activeIcon {
-  height: .9em;
-  width: .9em;
-  margin-left: -0.45em;
-  vertical-align: -0.05em;
 }
 .listsLabel {
   display: block;
   height: @lists-item-height;
-  padding: 0 10px;
+  padding: 0 14px;
   font-size: 13px;
   line-height: @lists-item-height;
   .mixin-ellipsis-1();

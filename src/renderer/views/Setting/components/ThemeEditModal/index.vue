@@ -641,7 +641,7 @@ export default {
   border: 1px dashed var(--color-primary-light-100-alpha-300);
   color: var(--color-primary-light-100-alpha-300);
   position: relative;
-  border-radius: 5px;
+  border-radius: @form-radius;
   display: flex;
   align-items: center;
   justify-content: center;
