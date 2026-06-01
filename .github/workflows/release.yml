@@ -9,6 +9,9 @@ on:
 env:
   IS_CI: 'true'
 
+permissions:
+  contents: write
+
 jobs:
   # CheckCode:
   #   name: Lint Code

@@ -49,6 +49,7 @@ const options = {
       provider: 'github',
       owner: 'YM040923',
       repo: 'ym-music-desktop',
+      releaseType: 'release',
     },
   ],
 }
