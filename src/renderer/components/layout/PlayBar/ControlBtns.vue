@@ -16,6 +16,7 @@
     </button>
     <common-volume-btn />
     <common-toggle-play-mode-btn />
+    <common-start-play-timer-btn />
     <common-list-add-modal v-model:show="isShowAddMusicTo" :music-info="playMusicInfo.musicInfo" />
   </div>
 </template>

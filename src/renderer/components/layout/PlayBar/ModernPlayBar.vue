@@ -44,6 +44,7 @@
         <button :class="$style.iconBtn" :aria-label="$t('player__add_music_to')" @click="addMusicTo">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" space="preserve"><use xlink:href="#icon-add-2" /></svg>
         </button>
+        <common-start-play-timer-btn :button-class="$style.iconBtn" />
         <common-current-playlist-btn :button-class="$style.iconBtn" />
         <button :class="$style.iconBtn" :aria-label="toggleDesktopLyricBtnTitle" @click="toggleDesktopLyric" @contextmenu="toggleLockDesktopLyric">
           <svg v-show="appSetting['desktopLyric.enable']" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" space="preserve"><use xlink:href="#icon-desktop-lyric-on" /></svg>

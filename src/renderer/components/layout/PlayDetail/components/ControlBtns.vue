@@ -17,6 +17,7 @@ div(:class="$style.footerLeftControlBtns")
   common-sound-effect-btn
   common-playback-rate-btn
   common-volume-btn
+  common-start-play-timer-btn(:button-class="$style.footerLeftControlBtn" @show="handleShowTimer")
   common-current-playlist-btn(:button-class="$style.footerLeftControlBtn" @show="handleShowPlaylist")
   common-toggle-play-mode-btn
   button(:class="$style.footerLeftControlBtn" :aria-label="$t('player__add_music_to')" @click="isShowAddMusicTo = true")
@@ -67,6 +68,10 @@ export default {
       setShowPlayLrcSelectContentLrc(false)
       setShowPlayComment(false)
     }
+    const handleShowTimer = () => {
+      setShowPlayLrcSelectContentLrc(false)
+      setShowPlayComment(false)
+    }
     const {
       nextTogglePlayName,
       toggleNextPlayMode,
@@ -102,6 +107,7 @@ export default {
       isShowPlayComment,
       toggleVisibleComment,
       handleShowPlaylist,
+      handleShowTimer,
       nextTogglePlayName,
       toggleNextPlayMode,
       toggleDesktopLyricBtnTitle,
