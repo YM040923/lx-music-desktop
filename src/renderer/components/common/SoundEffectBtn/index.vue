@@ -1,5 +1,5 @@
 <template>
-  <button :class="props.buttonClass || $style.btn" :aria-label="$t('player__sound_effect')" @click="visible = true">
+  <button :class="props.playDetail ? $style.playDetailBtn : (props.buttonClass || $style.btn)" :aria-label="$t('player__sound_effect')" @click="visible = true">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="90%" viewBox="0 0 24 24" space="preserve">
       <use xlink:href="#icon-tune-variant" />
     </svg>
@@ -40,6 +40,10 @@ const props = defineProps({
   buttonClass: {
     type: String,
     default: '',
+  },
+  playDetail: {
+    type: Boolean,
+    default: false,
   },
   teleport: {
     type: String,
@@ -152,6 +156,51 @@ watch(visible, (visible) => {
   font-size: 12px;
   line-height: 1.25;
   color: var(--color-font);
+}
+
+.playDetailBtn {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .38);
+  color: rgba(35, 54, 67, .72);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .52),
+    0 10px 24px rgba(76, 103, 124, .12);
+  transition:
+    transform @transition-fast,
+    background-color @transition-fast,
+    color @transition-fast,
+    box-shadow @transition-fast;
+
+  svg {
+    width: 21px !important;
+    height: 21px !important;
+    fill: currentColor;
+    color: currentColor;
+    opacity: 1 !important;
+  }
+
+  &:hover {
+    color: var(--color-primary);
+    background: rgba(255, 255, 255, .58);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .62),
+      0 14px 28px rgba(76, 103, 124, .16);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(.96);
+  }
 }
 
 </style>
