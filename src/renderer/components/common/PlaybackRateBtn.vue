@@ -1,6 +1,6 @@
 <template>
   <material-popup-btn :class="$style.btnContent">
-    <button :class="[$style.btn, { [$style.active]: playbackRate != 1 }]" :aria-label="`${$t('player__playback_rate')}${playbackRate}x`">
+    <button :class="[props.buttonClass || $style.btn, { [$style.active]: playbackRate != 1 }]" :aria-label="`${$t('player__playback_rate')}${playbackRate}x`">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 24 24" space="preserve">
         <use xlink:href="#icon-plex" />
       </svg>
@@ -29,6 +29,13 @@
 // import { computed } from '@common/utils/vueTools'
 import { playbackRate } from '@renderer/store/player/playbackRate'
 import { appSetting, updateSetting } from '@renderer/store/setting'
+
+const props = defineProps({
+  buttonClass: {
+    type: String,
+    default: '',
+  },
+})
 
 const handleUpdatePlaybackRate = (val) => {
   window.app_event.setPlaybackRate(Math.round(val) / 100)

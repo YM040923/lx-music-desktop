@@ -1,7 +1,7 @@
 <template>
   <div ref="btnRef" :class="$style.btnContent">
     <button
-      :class="[buttonClass || $style.btn, { [$style.active]: !!timeLabel || visible }]"
+      :class="[props.buttonClass || $style.btn, { [$style.active]: !!timeLabel || visible }]"
       :aria-label="$t('player__start_timer')"
       @click.stop="toggleVisible"
     >
@@ -90,7 +90,7 @@ import {
 import { playMusicInfo } from '@renderer/store/player/state'
 import { useI18n } from '@renderer/plugins/i18n'
 
-defineProps<{
+const props = defineProps<{
   buttonClass?: string
 }>()
 
@@ -206,8 +206,7 @@ onBeforeUnmount(() => {
 @import '@renderer/assets/styles/layout.less';
 
 .btnContent {
-  flex: none;
-  height: 100%;
+  display: contents;
 }
 
 .btn {

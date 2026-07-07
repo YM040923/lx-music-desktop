@@ -1,6 +1,6 @@
 <template>
   <material-popup-btn ref="btn_ref" :class="$style.btnContent">
-    <button :class="$style.btn" :aria-label="nextTogglePlayName">
+    <button :class="props.buttonClass || $style.btn" :aria-label="nextTogglePlayName">
       <svg
         v-if="appSetting['player.togglePlayMethod'] == 'listLoop'"
         version="1.1"
@@ -80,6 +80,13 @@ import { ref } from '@common/utils/vueTools'
 // import { musicInfo, playMusicInfo } from '@renderer/store/player/state'
 import { appSetting } from '@renderer/store/setting'
 import useNextTogglePlay from '@renderer/utils/compositions/useNextTogglePlay'
+
+const props = defineProps({
+  buttonClass: {
+    type: String,
+    default: '',
+  },
+})
 
 const btn_ref = ref(null)
 

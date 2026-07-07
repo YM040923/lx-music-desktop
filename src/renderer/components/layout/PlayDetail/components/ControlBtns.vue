@@ -14,12 +14,12 @@ div(:class="$style.footerLeftControlBtns")
   button(:class="[$style.footerLeftControlBtn, {[$style.active]: isShowPlayComment}]" :aria-label="$t('comment__show')" @click="toggleVisibleComment")
     svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="95%" viewBox="0 0 24 24" space="preserve")
       use(xlink:href="#icon-comment")
-  common-sound-effect-btn
-  common-playback-rate-btn
-  common-volume-btn
+  common-sound-effect-btn(:button-class="$style.footerLeftControlBtn")
+  common-playback-rate-btn(:button-class="$style.footerLeftControlBtn")
+  common-volume-btn(:button-class="$style.footerLeftControlBtn")
   common-start-play-timer-btn(:button-class="$style.footerLeftControlBtn" @show="handleShowTimer")
   common-current-playlist-btn(:button-class="$style.footerLeftControlBtn" @show="handleShowPlaylist")
-  common-toggle-play-mode-btn
+  common-toggle-play-mode-btn(:button-class="$style.footerLeftControlBtn")
   button(:class="$style.footerLeftControlBtn" :aria-label="$t('player__add_music_to')" @click="isShowAddMusicTo = true")
     svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" space="preserve")
       use(xlink:href="#icon-add-2")

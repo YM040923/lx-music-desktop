@@ -50,8 +50,8 @@
           <svg v-show="appSetting['desktopLyric.enable']" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" space="preserve"><use xlink:href="#icon-desktop-lyric-on" /></svg>
           <svg v-show="!appSetting['desktopLyric.enable']" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" space="preserve"><use xlink:href="#icon-desktop-lyric-off" /></svg>
         </button>
-        <common-volume-btn />
-        <common-toggle-play-mode-btn />
+        <common-volume-btn :button-class="$style.iconBtn" />
+        <common-toggle-play-mode-btn :button-class="$style.iconBtn" />
       </div>
     </div>
     <common-list-add-modal v-model:show="isShowAddMusicTo" :music-info="playMusicInfo.musicInfo" />

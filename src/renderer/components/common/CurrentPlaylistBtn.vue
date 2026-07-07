@@ -1,6 +1,6 @@
 <template>
   <div ref="btnRef" :class="$style.btnContent">
-    <button ref="buttonRef" :class="[buttonClass, { [$style.active]: visible }]" :aria-label="$t('player__current_playlist')" @click.stop="toggleVisible">
+    <button ref="buttonRef" :class="[props.buttonClass || $style.btn, { [$style.active]: visible }]" :aria-label="$t('player__current_playlist')" @click.stop="toggleVisible">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" viewBox="0 0 24 24" space="preserve">
         <use xlink:href="#icon-current-playlist" />
       </svg>
@@ -66,7 +66,7 @@ import { getList, removeTempPlayList } from '@renderer/store/player/action'
 import { playInfo, playMusicInfo, tempPlayList } from '@renderer/store/player/state'
 import { defaultList, loveList, tempList, userLists } from '@renderer/store/list/state'
 
-defineProps<{
+const props = defineProps<{
   buttonClass?: string
 }>()
 
@@ -156,8 +156,34 @@ onBeforeUnmount(() => {
 @import '@renderer/assets/styles/index.less';
 
 .btnContent {
-  flex: none;
-  height: 100%;
+  display: contents;
+}
+
+.btn {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  transition: color @transition-normal;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  width: 24px;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0;
+
+  svg {
+    transition: opacity @transition-fast;
+    opacity: .5;
+  }
+
+  &:hover svg {
+    opacity: .9;
+  }
+
+  &:active svg {
+    opacity: 1;
+  }
 }
 
 .active {
