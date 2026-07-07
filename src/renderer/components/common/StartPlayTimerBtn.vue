@@ -248,12 +248,12 @@ onBeforeUnmount(() => {
   width: min(360px, calc(100vw - 48px));
   z-index: 3200;
   border-radius: 16px;
-  background: rgba(255, 255, 255, .92);
-  backdrop-filter: blur(24px) saturate(1.12);
-  -webkit-backdrop-filter: blur(24px) saturate(1.12);
+  background: rgba(255, 255, 255, .98);
+  backdrop-filter: blur(18px) saturate(1.06);
+  -webkit-backdrop-filter: blur(18px) saturate(1.06);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, .62),
-    0 18px 48px rgba(76, 103, 124, .2);
+    inset 0 0 0 1px rgba(255, 255, 255, .8),
+    0 18px 48px rgba(76, 103, 124, .24);
   overflow: hidden;
   box-sizing: border-box;
   animation: drawerIn @transition-normal;
@@ -304,7 +304,7 @@ onBeforeUnmount(() => {
   gap: 6px;
   padding: 4px;
   border-radius: 10px;
-  background: var(--color-primary-light-300-alpha-300);
+  background: var(--color-primary-light-300-alpha-500);
 
   button {
     height: 30px;
@@ -317,7 +317,7 @@ onBeforeUnmount(() => {
 
     &.selected {
       color: var(--color-primary);
-      background: rgba(255, 255, 255, .72);
+      background: rgba(255, 255, 255, .92);
     }
   }
 }
@@ -338,7 +338,7 @@ onBeforeUnmount(() => {
     border: none;
     border-radius: 8px;
     color: var(--color-font);
-    background: var(--color-primary-light-300-alpha-300);
+    background: var(--color-primary-light-300-alpha-500);
     cursor: pointer;
   }
 }
@@ -362,7 +362,7 @@ onBeforeUnmount(() => {
     border: none;
     border-radius: 8px;
     color: var(--color-font-label);
-    background: var(--color-primary-light-300-alpha-300);
+    background: var(--color-primary-light-300-alpha-500);
     cursor: pointer;
     transition: color @transition-fast, background-color @transition-fast;
 
@@ -394,7 +394,8 @@ onBeforeUnmount(() => {
     border-radius: 8px;
     padding: 0 9px;
     color: var(--color-button-font);
-    background: var(--color-primary-background);
+    background: rgba(255, 255, 255, .94);
+    box-shadow: inset 0 0 0 1px var(--color-primary-light-300-alpha-400);
     outline: none;
     box-sizing: border-box;
   }
@@ -412,7 +413,8 @@ onBeforeUnmount(() => {
   min-height: 34px;
   padding: 8px 10px;
   border-radius: 8px;
-  background: var(--color-primary-light-300-alpha-200);
+  color: var(--color-font);
+  background: var(--color-primary-light-300-alpha-500);
   box-sizing: border-box;
 }
 
