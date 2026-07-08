@@ -6,6 +6,12 @@ import { WIN_MAIN_RENDERER_EVENT_NAME } from '@common/ipcNames'
 
 autoUpdater.logger = log
 autoUpdater.autoDownload = false
+autoUpdater.setFeedURL({
+  provider: 'github',
+  owner: 'YM040923',
+  repo: 'ym-music-desktop',
+  releaseType: 'release',
+})
 // autoUpdater.forceDevUpdateConfig = true
 // autoUpdater.autoDownload = false
 

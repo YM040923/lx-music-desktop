@@ -1,6 +1,6 @@
 {
   "name": "ym-music-desktop",
-  "version": "2.12.7",
+  "version": "2.12.8",
   "description": "基于 LX Music fork 的 UI 美化音乐助手",
   "main": "./dist/main.js",
   "scripts": {
